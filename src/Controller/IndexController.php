@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class IndexController extends AbstractController
 {
     //page apres login
-    #[Route('/index', name: 'app_index')]
+    #[Route('', name: 'app_index')]
     public function index(): Response
     {
         return $this->render('index/index.html.twig', [
