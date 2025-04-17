@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.CreationCompteController"
+      alignment="CENTER" spacing="20">
+
+    <!-- Padding -->
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Phrase explicative -->
+    <Text text="Choisissez le type de compte que vous souhaitez créer :" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <!-- Boutons -->
+    <Button text="Freelancer" onAction="#handleFreelancer" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-cursor: hand;"/>
+    <Button text="Chercheur" onAction="#handleChercheur" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-cursor: hand;"/>
+    <Button text="Moderateur" onAction="#handleModerateur" style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-cursor: hand;"/>
+</VBox>

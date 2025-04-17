@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.HBox?>
+<AnchorPane prefHeight="500.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AjouterChercheurController">
+
+    <children>
+        <VBox spacing="10" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="600.0">
+            <children>
+                <Text text="Ajouter Chercheur">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Text>
+
+                <TextField fx:id="emailField" promptText="Email" maxWidth="400"/>
+                <PasswordField fx:id="passwordField" promptText="Mot de passe" maxWidth="400"/>
+                <TextField fx:id="nomField" promptText="Nom" maxWidth="400"/>
+                <TextField fx:id="prenomField" promptText="Prénom" maxWidth="400"/>
+                <TextField fx:id="domaineField" promptText="Domaine" maxWidth="400"/>
+                <TextField fx:id="sexeField" promptText="Sexe" maxWidth="400"/>
+                <TextField fx:id="telField" promptText="Téléphone" maxWidth="400"/>
+                <TextField fx:id="photoField" promptText="Photo (nom de fichier ou URL)" maxWidth="400"/>
+                <TextField fx:id="cvField" promptText="CV (nom de fichier ou URL)" maxWidth="400"/>
+
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Ajouter Chercheur"
+                            style="-fx-background-color: #28a745; -fx-text-fill: white;"
+                            onAction="#ajouterChercheur"/>
+                </HBox>
+
+                <Label fx:id="statusLabel" textFill="green" />
+            </children>
+            <padding>
+                <Insets top="20" bottom="20" left="50" right="50"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

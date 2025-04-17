@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.ConnexionController"
+      alignment="CENTER"
+      spacing="50"
+      style="-fx-background-color: white; -fx-padding: 40;">
+
+    <!-- Partie gauche -->
+    <VBox alignment="CENTER" spacing="20">
+        <ImageView fitWidth="350" fitHeight="350" preserveRatio="true">
+            <image>
+                <Image url="@image/logo1.jpg" />
+            </image>
+        </ImageView>
+
+
+    </VBox>
+
+    <!-- Formulaire de connexion -->
+    <VBox alignment="CENTER" spacing="30"
+          style="-fx-padding: 20; -fx-background-color: #f8f9fa; -fx-border-radius: 10; -fx-background-radius: 10;">
+
+        <Label text="Connexion" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2F4F4F;" />
+
+        <TextField fx:id="emailField" promptText="Email"
+                   style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: white; -fx-border-radius: 5; -fx-border-color: #ddd;" />
+
+        <PasswordField fx:id="passwordField" promptText="Mot de passe"
+                       style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: white; -fx-border-radius: 5; -fx-border-color: #ddd;" />
+
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="Se connecter" onAction="#handleConnexion"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px; -fx-border-radius: 5;" />
+            <Button text="Créer un compte" onAction="#handleCreationCompte"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10px 20px; -fx-border-radius: 5;" />
+        </HBox>
+    </VBox>
+</HBox>

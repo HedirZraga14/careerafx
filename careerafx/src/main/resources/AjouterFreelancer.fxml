@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+
+
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AjouterFreelancerController">
+
+    <children>
+        <VBox spacing="10" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="600.0">
+            <children>
+                <Text text="Ajouter Freelancer">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Text>
+
+                <TextField fx:id="nomField" promptText="Nom" maxWidth="400"/>
+                <TextField fx:id="prenomField" promptText="Prénom" maxWidth="400"/>
+                <TextField fx:id="emailField" promptText="Email" maxWidth="400"/>
+                <PasswordField fx:id="passwordField" promptText="Mot de passe" maxWidth="400"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirmer le mot de passe" maxWidth="400"/>
+
+                <ComboBox fx:id="sexeComboBox" promptText="Sélectionnez votre sexe" maxWidth="400">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Femme"/>
+                            <String fx:value="Homme"/>
+                            <String fx:value="Autre"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+
+                <TextField fx:id="telField" promptText="Téléphone" maxWidth="400"/>
+                <!-- Photo Upload Section -->
+                <HBox spacing="15" alignment="CENTER">
+                    <Button text="Choisir une photo" onAction="#handlePhotoUpload"/>
+                    <ImageView fx:id="photoPreview" fitWidth="100" fitHeight="100"/>
+                </HBox>
+
+                <!-- CV Upload Section -->
+                <HBox spacing="15" alignment="CENTER">
+                    <Button text="Choisir un CV" onAction="#handleCVUpload"/>
+                    <Text fx:id="cvText" text="Aucun CV choisi"/>
+                </HBox>
+                <TextField fx:id="adresseField" promptText="Adresse" maxWidth="400"/>
+                <TextField fx:id="experienceField" promptText="Années d'expérience" maxWidth="400"/>
+
+                <HBox spacing="15" alignment="CENTER">
+                    <Button text="Ajouter"
+                            style="-fx-background-color: #28a745; -fx-text-fill: white;"
+                            onAction="#ajouterFreelancer"/>
+
+                    <Button text="Annuler"
+                            style="-fx-background-color: #dc3545; -fx-text-fill: white;"
+                            onAction="#annuler"/>
+                </HBox>
+
+                <Label fx:id="statusLabel" textFill="green"/>
+            </children>
+            <padding>
+                <Insets top="20" bottom="20" left="50" right="50"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
