@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AfficherCandidaturesUserController"
+            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1200.0" prefHeight="800.0">
+
+<children>
+        <VBox spacing="10" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="600.0">
+            <children>
+
+                <!-- Titre -->
+                <Text text="Liste des Candidatures">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Text>
+
+                <!-- Liste des candidatures -->
+                <ListView fx:id="listView" prefHeight="300.0" maxWidth="500.0"/>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="10" alignment="CENTER" prefWidth="500.0">
+                    <children>
+                        <!-- Zone gauche -->
+                        <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Button fx:id="supprimerBtn" text="Supprimer"
+                                        onAction="#supprimerCandidature"
+                                        style="-fx-background-color: #dc3545; -fx-text-fill: white;"/>
+                                <Button fx:id="rafraichirBtn" text="Rafraîchir"
+                                        onAction="#rafraichirListe"
+                                        style="-fx-background-color: #007bff; -fx-text-fill: white;"/>
+                            </children>
+                        </HBox>
+
+                        <!-- Espace extensible -->
+                        <Region HBox.hgrow="ALWAYS"/>
+
+
+                    </children>
+                </HBox>
+
+
+            </children>
+            <padding>
+                <Insets top="20" bottom="20" left="50" right="50"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

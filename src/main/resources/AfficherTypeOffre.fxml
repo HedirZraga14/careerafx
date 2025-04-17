@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AfficherTypeOffreController"
+            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1200.0" prefHeight="800.0">
+
+
+<children>
+        <VBox alignment="TOP_CENTER" spacing="20.0" layoutX="0" layoutY="20.0" prefWidth="600.0">
+            <!-- Titre -->
+            <Label text="Liste des Types d'Offres"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+            <!-- ListView des types d'offres -->
+            <ListView fx:id="listView"
+                      maxWidth="500.0"
+                      prefHeight="250.0" />
+
+            <!-- Ligne de boutons -->
+            <HBox spacing="15" alignment="CENTER">
+                <children>
+                    <Button text="Ajouter"
+                            fx:id="ajouterBtn"
+                            onAction="#ajouterTypeOffre"
+                            style="-fx-background-color: #28a745; -fx-text-fill: white;" />
+
+                    <Button text="Supprimer"
+                            fx:id="supprimerBtn"
+                            onAction="#supprimerTypeOffre"
+                            style="-fx-background-color: #dc3545; -fx-text-fill: white;" />
+
+                    <Button fx:id="ajouterOffreBtn"
+                            text="Retour"
+                            onAction="#ajouterOffre"
+                            style="-fx-background-color: #6c757d; -fx-text-fill: white;" />
+                </children>
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>

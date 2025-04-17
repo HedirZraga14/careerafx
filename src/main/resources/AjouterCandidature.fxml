@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterCandidatureController"
+            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1200.0" prefHeight="800.0">
+    <!-- Title Label -->
+    <Label text="Ajouter une candidature" layoutX="200" layoutY="10">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Label>
+
+    <!-- Offre ComboBox -->
+    <Label text="Sélectionner une Offre:" layoutX="50" layoutY="60"/>
+    <ComboBox fx:id="offreCB" layoutX="200" layoutY="60" prefWidth="200"/>
+
+    <!-- Statut TextField -->
+    <Label text="Statut:" layoutX="50" layoutY="100"/>
+    <TextField fx:id="statutTF" layoutX="200" layoutY="100" prefWidth="200"/>
+
+    <!-- Date Soumission DatePicker -->
+    <Label text="Date Soumission:" layoutX="50" layoutY="140"/>
+    <DatePicker fx:id="dateSoumissionDP" layoutX="200" layoutY="140" prefWidth="200"/>
+
+    <!-- Utilisateur TextField -->
+    <Label text="Utilisateur:" layoutX="50" layoutY="180"/>
+    <TextField fx:id="utilisateurTF" layoutX="200" layoutY="180" prefWidth="200"/>
+
+    <!-- CV TextField -->
+    <Label text="CV (URL):" layoutX="50" layoutY="220"/>
+    <TextField fx:id="cvTF" layoutX="200" layoutY="220" prefWidth="200"/>
+
+    <!-- Lettre Motivation TextField -->
+    <Label text="Lettre de Motivation (URL):" layoutX="50" layoutY="260"/>
+    <TextField fx:id="lettreMotivationTF" layoutX="200" layoutY="260" prefWidth="200"/>
+
+    <!-- Buttons -->
+    <Button text="Ajouter Candidature" layoutX="200" layoutY="300" onAction="#soumettreCandidature"/>
+    <Button text="Afficher Candidatures" layoutX="350" layoutY="300" onAction="#afficherCandidature"/>
+    <Button text="Retour" layoutX="50" layoutY="300" onAction="#afficherOffre"/>
+
+</AnchorPane>

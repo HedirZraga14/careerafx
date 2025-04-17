@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
+            xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AjouterOffreController"
+            prefWidth="1200.0" prefHeight="800.0">
+    
+
+    <children>
+        <VBox spacing="10" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="600.0">
+            <children>
+
+                <!-- Barre de boutons en haut à droite -->
+                <HBox alignment="TOP_RIGHT" prefWidth="600.0" spacing="10">
+                    <children>
+                        <Button fx:id="gererContratBtn" text="Gérer Contrat"
+                                style="-fx-background-color: #6c757d; -fx-text-fill: white;"
+                                onAction="#afficherTypeContrat"/>
+                        <Button fx:id="gererOffreBtn" text="Gérer Offre"
+                                style="-fx-background-color: #6c757d; -fx-text-fill: white;"
+                                onAction="#afficherTypeOffres"/>
+
+                    </children>
+                    <padding>
+                        <Insets right="20" top="10"/>
+                    </padding>
+                </HBox>
+
+                <!-- Titre principal -->
+                <Text text="Ajouter Offre">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Text>
+
+                <!-- Champs -->
+                <TextField fx:id="typeContratTF" promptText="ID Type Contrat" maxWidth="400"/>
+                <TextField fx:id="typeOffreTF" promptText="ID Type Offre" maxWidth="400"/>
+                <TextField fx:id="posteTF" promptText="Nom du Poste" maxWidth="400"/>
+                <TextField fx:id="entrepriseTF" promptText="Entreprise" maxWidth="400"/>
+                <TextField fx:id="localisationTF" promptText="Localisation" maxWidth="400"/>
+                <TextField fx:id="salaireTF" promptText="Salaire" maxWidth="400"/>
+                <CheckBox fx:id="disponibleCB" text="Disponible"/>
+                <TextField fx:id="imageTF" promptText="Lien image" maxWidth="400"/>
+                <TextField fx:id="utilisateurTF" promptText="Utilisateur" maxWidth="400"/>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="10" alignment="CENTER">
+                    <children>
+                        <Button fx:id="ajouterBtn" text="Ajouter"
+                                style="-fx-background-color: #28a745; -fx-text-fill: white;"
+                                onAction="#ajouterOffre"/>
+                        <Button fx:id="afficherBtn" text="Afficher"
+                                style="-fx-background-color: #007bff; -fx-text-fill: white;"
+                                onAction="#afficherOffres"/>
+                    </children>
+                </HBox>
+
+            </children>
+            <padding>
+                <Insets top="20" bottom="20" left="50" right="50"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
