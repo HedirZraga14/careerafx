@@ -1,60 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.AfficherCandidaturesUserController"
-            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1200.0" prefHeight="800.0">
+            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
+            prefWidth="1200.0" prefHeight="800.0">
 
-<children>
-        <VBox spacing="10" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="600.0">
-            <children>
+    <!-- Main container -->
+    <VBox spacing="20" padding="30">  <!-- Corrected padding here (top, right, bottom, left all 30) -->
+        <!-- Title -->
+        <Text text="Liste des Candidatures" style="-fx-fill: #2c3e50; -fx-font-weight: bold;">
+            <font>
+                <Font name="System Bold" size="40"/>
+            </font>
+        </Text>
 
-                <!-- Titre -->
-                <Text text="Liste des Candidatures">
-                    <font>
-                        <Font name="System Bold" size="24"/>
-                    </font>
-                </Text>
+        <!-- List of Candidatures -->
+        <ListView fx:id="listView" prefHeight="400.0" prefWidth="1000.0" style="-fx-border-color: #ddd; -fx-border-width: 1;"/>
 
-                <!-- Liste des candidatures -->
-                <ListView fx:id="listView" prefHeight="300.0" maxWidth="500.0"/>
+        <!-- Action Buttons -->
+        <HBox spacing="20">
+            <!-- Left Side -->
+            <HBox spacing="20" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <Button fx:id="supprimerBtn" text="Supprimer"
+                        onAction="#supprimerCandidature"
+                        style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, #000, 5, 0, 2, 2);"/>
+            </HBox>
 
-                <!-- Boutons d'action -->
-                <HBox spacing="10" alignment="CENTER" prefWidth="500.0">
-                    <children>
-                        <!-- Zone gauche -->
-                        <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                            <children>
-                                <Button fx:id="supprimerBtn" text="Supprimer"
-                                        onAction="#supprimerCandidature"
-                                        style="-fx-background-color: #dc3545; -fx-text-fill: white;"/>
-                                <Button fx:id="rafraichirBtn" text="Rafraîchir"
-                                        onAction="#rafraichirListe"
-                                        style="-fx-background-color: #007bff; -fx-text-fill: white;"/>
-                            </children>
-                        </HBox>
+            <!-- Stretchable Space -->
+            <Region HBox.hgrow="ALWAYS"/>
 
-                        <!-- Espace extensible -->
-                        <Region HBox.hgrow="ALWAYS"/>
+            <!-- Right Side -->
+            <HBox spacing="20" alignment="CENTER_RIGHT">
+                <Button fx:id="accepterBtn" text="Accepter"
+                        onAction="#accepterCandidature"
+                        style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, #000, 5, 0, 2, 2);"/>
+                <Button fx:id="refuserBtn" text="Refuser"
+                        onAction="#refuserCandidature"
+                        style="-fx-background-color: #ffc107; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, #000, 5, 0, 2, 2);"/>
+            </HBox>
+        </HBox>
 
+    </VBox>
 
-                    </children>
-                </HBox>
-
-
-            </children>
-            <padding>
-                <Insets top="20" bottom="20" left="50" right="50"/>
-            </padding>
-        </VBox>
-    </children>
 </AnchorPane>

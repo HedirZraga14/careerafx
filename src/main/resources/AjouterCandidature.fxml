@@ -2,47 +2,77 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
+<?import java.time.LocalDateTime?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.AjouterCandidatureController"
-            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1200.0" prefHeight="800.0">
+            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
+            prefWidth="1200.0" prefHeight="800.0">
+
     <!-- Title Label -->
-    <Label text="Ajouter une candidature" layoutX="200" layoutY="10">
+    <Label text="Ajouter une candidature" layoutX="280" layoutY="30">
         <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="30.0" /> <!-- Increased font size -->
         </font>
     </Label>
 
-    <!-- Offre ComboBox -->
-    <Label text="Sélectionner une Offre:" layoutX="50" layoutY="60"/>
-    <ComboBox fx:id="offreCB" layoutX="200" layoutY="60" prefWidth="200"/>
+    <!-- Form Layout using VBox -->
+    <VBox spacing="25" layoutX="100" layoutY="100" prefWidth="700" alignment="CENTER_LEFT">
+        <!-- ID de l'offre -->
+        <HBox spacing="20">
+            <Label text="ID de l'offre :" />
+            <TextField fx:id="offreIdTF" prefWidth="350"/>
+        </HBox>
 
-    <!-- Statut TextField -->
-    <Label text="Statut:" layoutX="50" layoutY="100"/>
-    <TextField fx:id="statutTF" layoutX="200" layoutY="100" prefWidth="200"/>
+        <!-- CV (URL) -->
+        <HBox spacing="20">
+            <Label text="CV (URL):" />
+            <TextField fx:id="cvTF" prefWidth="350"/>
+        </HBox>
 
-    <!-- Date Soumission DatePicker -->
-    <Label text="Date Soumission:" layoutX="50" layoutY="140"/>
-    <DatePicker fx:id="dateSoumissionDP" layoutX="200" layoutY="140" prefWidth="200"/>
+        <!-- Lettre de Motivation (URL) -->
+        <HBox spacing="20">
+            <Label text="Lettre de Motivation (URL):" />
+            <TextArea fx:id="lettreMotivationTA" prefWidth="350" prefHeight="120"/>
+        </HBox>
 
-    <!-- Utilisateur TextField -->
-    <Label text="Utilisateur:" layoutX="50" layoutY="180"/>
-    <TextField fx:id="utilisateurTF" layoutX="200" layoutY="180" prefWidth="200"/>
+        <!-- Statut -->
+        <HBox spacing="20">
+            <Label text="Statut:" />
+            <ComboBox fx:id="statutCB" prefWidth="350">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="EN_ATTENTE"/>
+                        <String fx:value="ACCEPTEE"/>
+                        <String fx:value="REFUSEE"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox>
 
-    <!-- CV TextField -->
-    <Label text="CV (URL):" layoutX="50" layoutY="220"/>
-    <TextField fx:id="cvTF" layoutX="200" layoutY="220" prefWidth="200"/>
+        <!-- Utilisateur -->
+        <HBox spacing="20">
+            <Label text="Utilisateur:" />
+            <TextField fx:id="utilisateurTF" prefWidth="350"/>
+        </HBox>
 
-    <!-- Lettre Motivation TextField -->
-    <Label text="Lettre de Motivation (URL):" layoutX="50" layoutY="260"/>
-    <TextField fx:id="lettreMotivationTF" layoutX="200" layoutY="260" prefWidth="200"/>
+        <!-- Date Soumission -->
+        <HBox spacing="20">
+            <Label text="Date Soumission:" />
+            <DatePicker fx:id="dateSoumissionDP" prefWidth="350"/>
+        </HBox>
+    </VBox>
 
     <!-- Buttons -->
-    <Button text="Ajouter Candidature" layoutX="200" layoutY="300" onAction="#soumettreCandidature"/>
-    <Button text="Afficher Candidatures" layoutX="350" layoutY="300" onAction="#afficherCandidature"/>
-    <Button text="Retour" layoutX="50" layoutY="300" onAction="#afficherOffre"/>
+    <HBox spacing="15" alignment="CENTER" layoutY="580" layoutX="100">
+        <Button text="Ajouter Candidature" onAction="#ajouterCandidature" style="-fx-background-color: #28a745; -fx-text-fill: white;" prefWidth="200"/>
+        <Button text="Afficher Candidature" onAction="#afficherCandidature" style="-fx-background-color: #007bff; -fx-text-fill: white;" prefWidth="200"/>
+        <Button text="Retour" onAction="#afficherOffre" style="-fx-background-color: #6c757d; -fx-text-fill: white;" prefWidth="200"/>
+    </HBox>
 
 </AnchorPane>

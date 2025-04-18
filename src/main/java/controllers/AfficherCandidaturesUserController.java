@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Candidature;
+import entities.Candidature.StatutCandidature;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,10 +14,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import services.candidatureService;
+import services.CandidatureService;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,19 +26,19 @@ public class AfficherCandidaturesUserController {
     private ListView<Candidature> listView;
 
     private ObservableList<Candidature> obs;
-    private final candidatureService cs = new candidatureService();
+    private final CandidatureService cs = new CandidatureService();
 
     @FXML
-    void initialize() {
+    public void initialize() {
         try {
             chargerCandidatures();
         } catch (SQLException e) {
-            System.err.println("Erreur lors du chargement des candidatures : " + e.getMessage());
+            showAlert("Erreur lors du chargement des candidatures : " + e.getMessage());
         }
     }
 
     public void chargerCandidatures() throws SQLException {
-        List<Candidature> candidatures = cs.recuperer(50, 0); // Tu peux adapter le limit/offset
+        List<Candidature> candidatures = cs.recuperer(50, 0); // Limit & offset personnalisables
         obs = FXCollections.observableArrayList(candidatures);
         listView.setItems(obs);
 
@@ -46,19 +46,17 @@ public class AfficherCandidaturesUserController {
             @Override
             protected void updateItem(Candidature candidature, boolean empty) {
                 super.updateItem(candidature, empty);
-
                 if (empty || candidature == null) {
                     setText(null);
                 } else {
-                    setText(String.format("Candidature #%d - Offre: %d - Statut: %s",
+                    setText(String.format("Candidature #%d - Offre ID: %d - Statut: %s",
                             candidature.getId(),
-                            candidature.getOffre_id(),
+                            candidature.getOffre().getId(), // Corrigé pour afficher l'ID de l'offre
                             candidature.getStatut()));
                 }
             }
         });
     }
-
 
     @FXML
     public void supprimerCandidature(ActionEvent actionEvent) {
@@ -69,15 +67,15 @@ public class AfficherCandidaturesUserController {
                 boolean success = cs.supprimer(selected.getId());
                 if (success) {
                     obs.remove(selected);
-                    System.out.println("Candidature supprimée avec succès.");
+                    showAlert("Candidature supprimée avec succès.");
                 } else {
-                    System.err.println("Aucune candidature trouvée à supprimer.");
+                    showAlert("Aucune candidature trouvée à supprimer.");
                 }
             } catch (SQLException e) {
-                System.err.println("Erreur lors de la suppression : " + e.getMessage());
+                showAlert("Erreur lors de la suppression : " + e.getMessage());
             }
         } else {
-            System.out.println("Veuillez sélectionner une candidature à supprimer.");
+            showAlert("Veuillez sélectionner une candidature à supprimer.");
         }
     }
 
@@ -86,32 +84,34 @@ public class AfficherCandidaturesUserController {
         try {
             chargerCandidatures();
         } catch (SQLException e) {
-            System.err.println("Erreur lors du rafraîchissement : " + e.getMessage());
+            showAlert("Erreur lors du rafraîchissement : " + e.getMessage());
         }
     }
 
     @FXML
     private void retourAccueil(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCandidature.fxml")); // Remplace ce chemin par le bon
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCandidature.fxml")); // Vérifie bien le chemin
             Parent root = loader.load();
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            showAlert("Erreur lors du chargement de la page d'accueil : " + e.getMessage());
         }
     }
+
     @FXML
     public void accepterCandidature() {
         Candidature selected = listView.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            selected.setStatut("Acceptée");
+            selected.setStatut(StatutCandidature.ACCEPTEE);
             try {
                 cs.modifier(selected);
-                rafraichirListe(); // appelle la version sans paramètre
+                rafraichirListe();
+                showAlert("Candidature acceptée.");
             } catch (SQLException e) {
-                System.err.println("Erreur lors de la modification : " + e.getMessage());
+                showAlert("Erreur lors de l'acceptation : " + e.getMessage());
             }
         } else {
             showAlert("Veuillez sélectionner une candidature à accepter.");
@@ -122,12 +122,13 @@ public class AfficherCandidaturesUserController {
     public void refuserCandidature() {
         Candidature selected = listView.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            selected.setStatut("Refusée");
+            selected.setStatut(StatutCandidature.REFUSEE);
             try {
                 cs.modifier(selected);
                 rafraichirListe();
+                showAlert("Candidature refusée.");
             } catch (SQLException e) {
-                System.err.println("Erreur lors de la modification : " + e.getMessage());
+                showAlert("Erreur lors du refus : " + e.getMessage());
             }
         } else {
             showAlert("Veuillez sélectionner une candidature à refuser.");
@@ -141,5 +142,4 @@ public class AfficherCandidaturesUserController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }

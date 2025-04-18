@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane prefWidth="1200.0" prefHeight="800.0"
-            xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.AjouterTypeOffreController"
-            style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);">
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterTypeContratController"
+            prefWidth="1200.0" prefHeight="800.0">
 
     <children>
         <VBox spacing="30" alignment="TOP_CENTER"
@@ -24,7 +24,7 @@
             </padding>
 
             <!-- Titre -->
-            <Text text="Ajouter Type Offre">
+            <Text text="Ajouter Type Contrat">
                 <font>
                     <Font name="System Bold" size="30"/>
                 </font>
@@ -33,8 +33,8 @@
             <!-- Champ de saisie -->
             <VBox spacing="10" alignment="CENTER">
                 <children>
-                    <Label text="Nom du Type d'Offre" style="-fx-font-size: 16px;"/>
-                    <TextField fx:id="nomTypeOffreTF"
+                    <Label text="Nom du Type de Contrat" style="-fx-font-size: 16px;"/>
+                    <TextField fx:id="nomTypeContratTF"
                                promptText="Ex : Stage, CDI, Freelance..."
                                maxWidth="350"
                                style="-fx-font-size: 14px; -fx-padding: 10px;"/>
@@ -46,7 +46,7 @@
                 <children>
                     <Button fx:id="ajouterBtn"
                             text="Ajouter"
-                            onAction="#ajouterTypeOffre"
+                            onAction="#ajouterTypeContrat"
                             style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 25px;"/>
                 </children>
             </HBox>

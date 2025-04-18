@@ -7,67 +7,62 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane
-
-        style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1200.0" prefHeight="800.0"
+        style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
+        prefWidth="1200.0" prefHeight="800.0"
         xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.AfficherOffreController">
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="controllers.AfficherOffreController">
 
     <children>
-        <VBox spacing="10" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="600.0">
-            <children>
+        <VBox spacing="20" alignment="TOP_CENTER"
+              layoutY="20.0" prefWidth="900.0"
+              AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="50.0">
 
-                <!-- Barre de boutons en haut à droite -->
-                <HBox alignment="TOP_RIGHT" prefWidth="600.0" spacing="10">
+            <!-- Titre -->
+            <Text text="Liste des offres">
+                <font>
+                    <Font name="System Bold" size="30"/>
+                </font>
+            </Text>
 
-                    <padding>
-                        <Insets right="20" top="10"/>
-                    </padding>
-                </HBox>
+            <!-- Barre de recherche -->
+            <HBox spacing="15" alignment="CENTER">
+                <children>
+                    <TextField fx:id="searchField"
+                               promptText="Rechercher une offre..."
+                               maxWidth="500"
+                               style="-fx-font-size: 16px;"/>
+                    <Button text="Rechercher"
+                            onAction="#rechercherOffre"
+                            style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px;"/>
+                </children>
+            </HBox>
 
-                <!-- Titre -->
-                <Text text="Liste des offres">
-                    <font>
-                        <Font name="System Bold" size="24"/>
-                    </font>
-                </Text>
+            <!-- Afficher Candidature Button -->
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="AfficherCandidatureBtn" text="Voir les Candidatures"
+                        style="-fx-background-color: #20c997; -fx-text-fill: white; -fx-font-size: 16px;"
+                        onAction="#afficherCandidature"/>
+            </HBox>
 
-                <!-- Barre de recherche -->
-                <HBox spacing="10" alignment="CENTER">
-                    <children>
-                        <TextField fx:id="searchField" promptText="Rechercher une offre..." maxWidth="400"/>
-                        <Button text="Rechercher"
-                                onAction="#rechercherOffre"
-                                style="-fx-background-color: #007bff; -fx-text-fill: white;"/>
-                    </children>
-                    <children>
-                    <Button fx:id="AfficherCandidatureBtn" text="Afficher Candidature"
-                            style="-fx-background-color: #20c997; -fx-text-fill: white;"
-                            onAction="#afficherCandidature"/>
-                    </children>
-                </HBox>
+            <!-- Liste des offres -->
+            <ListView fx:id="listView"
+                      prefHeight="400.0"
+                      maxWidth="700.0"
+                      style="-fx-font-size: 16px;"/>
 
-                <!-- Liste des offres -->
-                <ListView fx:id="listView" prefHeight="250.0" maxWidth="500.0"/>
+            <!-- Boutons d'action -->
+            <HBox spacing="20" alignment="CENTER" prefWidth="700.0">
+                <children>
+                    <Button fx:id="deleteBtn" text="Supprimer"
+                            onAction="#supprimerOffre"
+                            style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px;"/>
+                    <Button fx:id="ajouterOffreBtn" text="Retour"
+                            style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-size: 16px;"
+                            onAction="#ajouterOffre"/>
+                </children>
+            </HBox>
 
-                <!-- Boutons d'action -->
-                <HBox spacing="10" alignment="CENTER">
-                    <children>
-                        <Button fx:id="deleteBtn" text="Supprimer"
-                                onAction="#supprimerOffre"
-                                style="-fx-background-color: #dc3545; -fx-text-fill: white;"/>
-                    </children>
-                    <children>
-                        <Button fx:id="ajouterOffreBtn" text="retour"
-                                style="-fx-background-color: #6c757d; -fx-text-fill: white;"
-                                onAction="#ajouterOffre"/>
-                    </children>
-                </HBox>
-
-            </children>
-            <padding>
-                <Insets top="20" bottom="20" left="50" right="50"/>
-            </padding>
         </VBox>
     </children>
 </AnchorPane>

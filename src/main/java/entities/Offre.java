@@ -12,6 +12,7 @@ public class Offre {
     private String image;
     private String utilisateur;
 
+    public Offre() {}
     public Offre(String nomPoste, String entreprise, String localisation, TypeContrat typeContrat, TypeOffre typeOffre, double salaire, boolean disponibilite, String image, String utilisateur) {
     }
 

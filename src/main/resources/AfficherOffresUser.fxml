@@ -7,29 +7,29 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane
-        style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1200.0" prefHeight="800.0"
+        style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1500.0" prefHeight="900.0"
         xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.AfficherOffreController">
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="controllers.AfficherOffreController">
 
     <children>
-        <VBox spacing="10" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="600.0">
+        <VBox spacing="15" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="1000.0">
             <padding>
-                <Insets top="20" bottom="20" left="50" right="50"/>
+                <Insets top="30" bottom="30" left="100" right="100"/>
             </padding>
             <children>
 
                 <!-- Titre -->
                 <Text text="Liste des Offres">
                     <font>
-                        <Font name="System Bold" size="24"/>
+                        <Font name="System Bold" size="36"/> <!-- Increased font size -->
                     </font>
                 </Text>
 
-                <!-- Barre de recherche et bouton candidature -->
-                <HBox spacing="10" alignment="CENTER">
+                <!-- Barre de recherche et bouton ajout candidatures -->
+                <HBox spacing="20" alignment="CENTER">
                     <children>
-                        <TextField fx:id="searchField" promptText="Rechercher une offre..." maxWidth="300"/>
+                        <TextField fx:id="searchField" promptText="Rechercher une offre..." maxWidth="400"/>
                         <Button text="Rechercher"
                                 onAction="#rechercherOffre"
                                 style="-fx-background-color: #007bff; -fx-text-fill: white;"/>
@@ -40,8 +40,7 @@
                 </HBox>
 
                 <!-- Liste des offres -->
-                <ListView fx:id="listView" prefHeight="250.0" maxWidth="500.0"/>
-
+                <ListView fx:id="listView" prefHeight="400.0" maxWidth="800.0"/> <!-- Increased size -->
 
             </children>
         </VBox>

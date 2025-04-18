@@ -1,6 +1,7 @@
 package services;
 
 import entities.TypeContrat;
+import entities.TypeOffre;
 import utils.MyDatabase;
 
 import java.sql.*;
@@ -75,5 +76,30 @@ public class TypeContratService {
             System.err.println("Erreur lors de la recherche : " + e.getMessage());
         }
         return null;
+    }
+    // Méthode rechercher pour filtrer les TypeOffres par nom
+    public List<TypeContrat> rechercher(String nom) {
+        List<TypeContrat> list = new ArrayList<>();
+        String sql = "SELECT * FROM type_Contrat WHERE LOWER(nom) LIKE ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + nom.toLowerCase() + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                TypeContrat to = new TypeContrat(rs.getInt("id"), rs.getString("nom"));
+                list.add(to);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche : " + e.getMessage());
+        }
+        return list;
+    }
+
+    // Ajout de la méthode rechercher() sans paramètre pour compatibilité
+    public List<TypeContrat> rechercher() {
+        return afficherTous();
+    }
+
+    public List<TypeContrat> recuperer() throws SQLException {
+        return rechercher();
     }
 }

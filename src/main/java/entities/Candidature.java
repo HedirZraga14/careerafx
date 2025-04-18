@@ -3,24 +3,45 @@ package entities;
 import java.time.LocalDateTime;
 
 public class Candidature {
+
+    public enum StatutCandidature {
+        EN_ATTENTE,
+        ACCEPTEE,
+        REFUSEE
+    }
+
     private int id;
-    private int offre_id;
-    private String statut;
-    private LocalDateTime dateSoumission;
+    private Offre offre;  // Change to an Offre object, not an int
+    private StatutCandidature statut = StatutCandidature.EN_ATTENTE; // Default value
+    private LocalDateTime datesoumission;
     private String utilisateur;
     private String cv;
     private String lettreMotivation;
 
-    // Constructors
+    // Default constructor
     public Candidature() {
+        this.statut = StatutCandidature.EN_ATTENTE;
     }
 
-    public Candidature(int id, int offre_id, String statut, LocalDateTime dateSoumission,
+    // Constructor without the statut field (default value applied)
+    public Candidature(int id, Offre offre, LocalDateTime dateSoumission,
                        String utilisateur, String cv, String lettreMotivation) {
         this.id = id;
-        this.offre_id = offre_id;
+        this.offre = offre;  // Accept an Offre object
+        this.statut = StatutCandidature.EN_ATTENTE;
+        this.datesoumission = dateSoumission;
+        this.utilisateur = utilisateur;
+        this.cv = cv;
+        this.lettreMotivation = lettreMotivation;
+    }
+
+    // Complete constructor (statut is provided)
+    public Candidature(int id, Offre offre, StatutCandidature statut, LocalDateTime datesoumission,
+                       String utilisateur, String cv, String lettreMotivation) {
+        this.id = id;
+        this.offre = offre;  // Accept an Offre object
         this.statut = statut;
-        this.dateSoumission = dateSoumission;
+        this.datesoumission = datesoumission;
         this.utilisateur = utilisateur;
         this.cv = cv;
         this.lettreMotivation = lettreMotivation;
@@ -35,28 +56,28 @@ public class Candidature {
         this.id = id;
     }
 
-    public int getOffre_id() {
-        return offre_id;
+    public Offre getOffre() {  // Change to get Offre object
+        return offre;
     }
 
-    public void setOffre_id(int offre_id) {
-        this.offre_id = offre_id;
+    public void setOffre(Offre offre) {  // Accept an Offre object, not an int
+        this.offre = offre;
     }
 
-    public String getStatut() {
+    public StatutCandidature getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(StatutCandidature statut) {
         this.statut = statut;
     }
 
     public LocalDateTime getDateSoumission() {
-        return dateSoumission;
+        return datesoumission;
     }
 
     public void setDateSoumission(LocalDateTime dateSoumission) {
-        this.dateSoumission = dateSoumission;
+        this.datesoumission = dateSoumission;
     }
 
     public String getUtilisateur() {
@@ -83,14 +104,18 @@ public class Candidature {
         this.lettreMotivation = lettreMotivation;
     }
 
-    // toString method
+    // Utility method (optional)
+    public boolean isAcceptee() {
+        return statut == StatutCandidature.ACCEPTEE;
+    }
+
     @Override
     public String toString() {
         return "Candidature{" +
                 "id=" + id +
-                ", offre_id=" + offre_id +
-                ", statut='" + statut + '\'' +
-                ", dateSoumission=" + dateSoumission +
+                ", offre=" + offre +  // Now showing the entire Offre object
+                ", statut=" + statut +
+                ", dateSoumission=" + datesoumission +
                 ", utilisateur='" + utilisateur + '\'' +
                 ", cv='" + cv + '\'' +
                 ", lettreMotivation='" + lettreMotivation + '\'' +

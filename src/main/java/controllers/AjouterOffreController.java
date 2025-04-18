@@ -12,11 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import services.OffreService;
-import services.candidatureService;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 public class AjouterOffreController {
 
@@ -32,6 +30,7 @@ public class AjouterOffreController {
     public Button gererContratBtn;
     public Button gererOffreBtn;
 
+    // Affichage des types de contrat
     public void afficherTypeContrat(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/AfficherTypeContrat.fxml"));
@@ -41,6 +40,7 @@ public class AjouterOffreController {
         }
     }
 
+    // Affichage des types d'offres
     public void afficherTypeOffres(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/AfficherTypeOffre.fxml"));
@@ -50,6 +50,7 @@ public class AjouterOffreController {
         }
     }
 
+    // Affichage des offres
     public void afficherOffres(ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/AfficherOffre.fxml"));
@@ -59,42 +60,72 @@ public class AjouterOffreController {
         }
     }
 
+    // Ajout d'une nouvelle offre avec validation des champs
     public void ajouterOffre(ActionEvent actionEvent) {
         OffreService os = new OffreService();
         try {
-            int typeContratId = Integer.parseInt(typeContratTF.getText());
-            int typeOffreId = Integer.parseInt(typeOffreTF.getText());
+            // Validation des champs de saisie
+            if (typeContratTF.getText().trim().isEmpty() || typeOffreTF.getText().trim().isEmpty() || posteTF.getText().trim().isEmpty() ||
+                    entrepriseTF.getText().trim().isEmpty() || localisationTF.getText().trim().isEmpty() || salaireTF.getText().trim().isEmpty()) {
+                throw new IllegalArgumentException("Tous les champs obligatoires doivent être remplis.");
+            }
 
+            // Validation des IDs de TypeContrat et TypeOffre entre 1 et 3
+            int typeContratId = Integer.parseInt(typeContratTF.getText().trim());
+            int typeOffreId = Integer.parseInt(typeOffreTF.getText().trim());
+
+            if (typeContratId < 1 || typeContratId > 3) {
+                throw new IllegalArgumentException("L'ID du type de contrat doit être entre 1 et 3.");
+            }
+            if (typeOffreId < 1 || typeOffreId > 3) {
+                throw new IllegalArgumentException("L'ID du type d'offre doit être entre 1 et 3.");
+            }
+
+            // Validation du salaire
+            double salaire;
+            try {
+                salaire = Double.parseDouble(salaireTF.getText().trim());
+                if (salaire <= 0) {
+                    throw new IllegalArgumentException("Le salaire doit être un montant positif.");
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Le salaire doit être un nombre valide.");
+            }
+
+            // Création des objets TypeContrat et TypeOffre
             TypeContrat typeContrat = new TypeContrat();
             typeContrat.setId(typeContratId);
 
             TypeOffre typeOffre = new TypeOffre();
             typeOffre.setId(typeOffreId);
 
-            String nomPoste = posteTF.getText();
-            String entreprise = entrepriseTF.getText();
-            String localisation = localisationTF.getText();
-            double salaire = Double.parseDouble(salaireTF.getText());
+            // Récupération des autres champs
+            String nomPoste = posteTF.getText().trim();
+            String entreprise = entrepriseTF.getText().trim();
+            String localisation = localisationTF.getText().trim();
             boolean disponibilite = disponibleCB.isSelected();
-            String image = imageTF.getText();
-            String utilisateur = utilisateurTF.getText();
+            String image = imageTF.getText().trim();
+            String utilisateur = utilisateurTF.getText().trim();
 
+            // Création de l'offre
             Offre o = new Offre(typeContrat, typeOffre, nomPoste, entreprise, localisation, salaire, disponibilite, image, utilisateur);
 
+            // Ajout de l'offre dans la base de données
             os.ajouter(o);
 
+            // Affichage de l'alerte de succès
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Succès");
             alert.setHeaderText("Offre ajoutée !");
             alert.setContentText("L'offre a été ajoutée avec succès.");
             alert.showAndWait();
-        } catch (SQLException | NumberFormatException e) {
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setTitle("Erreur");
-            a.setContentText(e.getMessage());
-            a.show();
+        } catch (SQLException | IllegalArgumentException e) {
+            // Affichage de l'alerte d'erreur
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Erreur lors de l'ajout de l'offre");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
-
-
 }

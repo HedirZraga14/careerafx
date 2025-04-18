@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.AfficherTypeOffreController"
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AfficherTypeContratController"
             style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
             prefWidth="1200.0" prefHeight="800.0">
 
@@ -18,7 +20,7 @@
             </padding>
 
             <!-- Titre -->
-            <Label text="Liste des Types d'Offres"
+            <Label text="Liste des Types de Contrat"
                    style="-fx-font-size: 28px; -fx-font-weight: bold;" />
 
             <!-- ListView des types d'offres -->
@@ -32,12 +34,12 @@
                 <children>
                     <Button text="Ajouter"
                             fx:id="ajouterBtn"
-                            onAction="#ajouterTypeOffre"
+                            onAction="#ajouterTypeContrat"
                             style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px;" />
 
                     <Button text="Supprimer"
                             fx:id="supprimerBtn"
-                            onAction="#supprimerTypeOffre"
+                            onAction="#supprimerTypeContrat"
                             style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 20px;" />
 
                     <Button fx:id="ajouterOffreBtn"

@@ -1,113 +1,122 @@
 package controllers;
 
 import entities.Candidature;
+import entities.Offre;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import services.candidatureService;
+import services.CandidatureService;
+import services.OffreService; // Add a service for fetching offers
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 public class AjouterCandidatureController {
 
     @FXML
+    private TextField offreIdTF;
+    @FXML
     private TextField utilisateurTF;
-
+    @FXML
+    private TextField cvTF;
     @FXML
     private TextArea lettreMotivationTA;
+    @FXML
+    private Button ajouterBtn;
+    @FXML
+    private TableView<Candidature> candidatureTableView; // TableView for displaying candidatures
 
-    private int offreId;
-
-    public void initData(int offreId) {
-        this.offreId = offreId;
-        // Tu peux afficher l’ID dans une étiquette ou l’utiliser lors de la soumission
-        System.out.println("Offre ID reçu : " + offreId);
-    }
+    private CandidatureService candidatureService = new CandidatureService(); // Instance of service
+    private OffreService offreService = new OffreService(); // Instance of OffreService for checking if the offer exists
 
     @FXML
-    void soumettreCandidature(ActionEvent event) {
+    public void ajouterCandidature(ActionEvent event) {
         try {
+            // Récupérer les valeurs saisies
+            int offreId = Integer.parseInt(offreIdTF.getText());
             String utilisateur = utilisateurTF.getText();
+            String cv = cvTF.getText();
             String lettre = lettreMotivationTA.getText();
 
-            if (utilisateur.isEmpty()) {
-                throw new IllegalArgumentException("Le champ utilisateur est requis.");
+            // Vérifier si l'offre existe
+            Offre offre = offreService.getOffreById(offreId);
+            if (offre == null) {
+                new Alert(Alert.AlertType.ERROR, "L'offre avec cet ID n'existe pas. Veuillez vérifier l'ID de l'offre.").show();
+                return;
             }
 
+            // Créer la candidature
             Candidature candidature = new Candidature();
-            candidature.setOffre_id(offreId); // <-- Utilisation de l'ID reçu
+            candidature.setOffre(offre);
             candidature.setUtilisateur(utilisateur);
-            candidature.setStatut("En attente");
+            candidature.setCv(cv);
+            candidature.setLettreMotivation(lettre);
             candidature.setDateSoumission(LocalDateTime.now());
-            candidature.setCv("cv_par_defaut.pdf");
-            candidature.setLettreMotivation(lettre.isEmpty() ? "Lettre par défaut" : lettre);
 
-            candidatureService service = new candidatureService();
-            service.ajouter(candidature);
+            // Ajouter la candidature à la base de données
+            candidatureService.ajouter(candidature);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succès");
-            alert.setHeaderText("Candidature ajoutée");
-            alert.setContentText("La candidature a été soumise avec succès.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.INFORMATION, "Candidature ajoutée avec succès.").show();
 
-        } catch (SQLException | IllegalArgumentException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Erreur lors de la soumission");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            // Rafraîchir la table
+            afficherCandidatures(offreId);
+
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Veuillez entrer un ID d'offre valide.").show();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de la candidature : " + e.getMessage()).show();
         }
     }
     @FXML
-    void afficherCandidature(ActionEvent event) {
+    private void afficherCandidature() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherCandidaturesUser.fxml"));
-            Parent root = loader.load();
-
-            // Optionnel : si tu veux passer l'offreId à la page suivante
-            // AfficherCandidatureController controller = loader.getController();
-            // controller.initData(offreId);
-
+            AnchorPane root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Liste des Candidatures");
             stage.setScene(new Scene(root));
             stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Impossible d'afficher les candidatures");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la page : " + e.getMessage()).show();
         }
     }
     @FXML
-    public void afficherOffre(ActionEvent actionEvent) {
+    public void afficherCandidatures(int offreId) {
+        try {
+            List<Candidature> candidatures = candidatureService.recuperer(10, 0); // Fetch list of candidatures
+            // Filter candidatures by the given offer ID
+            List<Candidature> candidaturesFiltrees = candidatures.stream()
+                    .filter(c -> c.getOffre().getId() == offreId)
+                    .toList();
+
+            // Populate the table with filtered candidatures
+            candidatureTableView.getItems().setAll(candidaturesFiltrees);
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'affichage des candidatures : " + e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    public void afficherOffre(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherOffre.fxml"));
-            Parent root = loader.load();
-
-            // Récupérer la scène actuelle à partir de l'événement
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            // Afficher la nouvelle scène
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            AnchorPane root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
             stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la page : " + e.getMessage()).show();
         }
     }
-
-
 }

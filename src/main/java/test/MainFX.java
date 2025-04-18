@@ -11,7 +11,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Acceuil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherOffresUser.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
@@ -22,6 +22,7 @@ public class MainFX extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public static void main(String[] args) {

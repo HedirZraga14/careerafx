@@ -1,9 +1,6 @@
 package controllers;
 
-import entities.Candidature;
 import entities.Offre;
-import entities.TypeContrat;
-import entities.TypeOffre;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,14 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import services.OffreService;
-import services.candidatureService;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -154,7 +148,6 @@ public class AfficherOffreController {
             // Récupérer la scène actuelle à partir de l'événement
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-            // Afficher la nouvelle scène
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
