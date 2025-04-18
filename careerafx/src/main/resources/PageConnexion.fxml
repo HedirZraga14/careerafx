@@ -12,15 +12,13 @@
       spacing="50"
       style="-fx-background-color: white; -fx-padding: 40;">
 
-    <!-- Partie gauche -->
+    <!-- Partie gauche (Image) -->
     <VBox alignment="CENTER" spacing="20">
         <ImageView fitWidth="350" fitHeight="350" preserveRatio="true">
             <image>
                 <Image url="@image/logo1.jpg" />
             </image>
         </ImageView>
-
-
     </VBox>
 
     <!-- Formulaire de connexion -->

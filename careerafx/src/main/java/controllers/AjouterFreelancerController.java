@@ -13,12 +13,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.UserService;
 import javafx.scene.Parent;
-import javafx.scene.text.Text;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 public class AjouterFreelancerController {
 
+    // Champs du formulaire
     @FXML private TextField nomField;
     @FXML private TextField prenomField;
     @FXML private TextField emailField;
@@ -29,70 +30,181 @@ public class AjouterFreelancerController {
     @FXML private TextField adresseField;
     @FXML private TextField experienceField;
     @FXML private Label statusLabel;
-
-    // Champs pour la photo et le CV
     @FXML private ImageView photoPreview;
-    @FXML private Text cvText;
+
+    @FXML private Label cvLabel; // Changé de Text à Label
 
     private final UserService userService = new UserService();
-
-    // Variables pour stocker les fichiers sélectionnés
     private File selectedPhoto;
     private File selectedCV;
 
+    // Expressions régulières pour validation
+    private static final String NAME_PATTERN = "^[a-zA-Z]{2,}(?:\\s[a-zA-Z]{2,})*$";
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+    private static final String PHONE_PATTERN = "^[0-9]{8}$";
+
     @FXML
     private void initialize() {
-        // Initialiser la liste déroulante pour le sexe
-        sexeComboBox.getItems().addAll("Homme", "Femme", "Autre");
-        sexeComboBox.setValue("Choisir un sexe");
+        // Initialisation de la ComboBox
+        sexeComboBox.getItems().addAll("Femme", "Homme", "Autre");
+        sexeComboBox.getSelectionModel().selectFirst();
+
+
+        // Configuration des validateurs
+        setupFieldValidators();
     }
 
-    @FXML
-    public void handlePhotoUpload(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.jpeg"));
-        Stage stage = (Stage) photoPreview.getScene().getWindow();
-        selectedPhoto = fileChooser.showOpenDialog(stage);
+    private void setupFieldValidators() {
+        // Validation en temps réel pour chaque champ
+        nomField.textProperty().addListener((obs, oldVal, newVal) ->
+                validateField(newVal, NAME_PATTERN, nomField));
 
-        if (selectedPhoto != null) {
-            Image image = new Image(selectedPhoto.toURI().toString());
-            photoPreview.setImage(image);
+        prenomField.textProperty().addListener((obs, oldVal, newVal) ->
+                validateField(newVal, NAME_PATTERN, prenomField));
+
+        emailField.textProperty().addListener((obs, oldVal, newVal) ->
+                validateField(newVal, EMAIL_PATTERN, emailField));
+
+        passwordField.textProperty().addListener((obs, oldVal, newVal) ->
+                validateField(newVal, PASSWORD_PATTERN, passwordField));
+
+        confirmPasswordField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.equals(passwordField.getText())) {
+                confirmPasswordField.setStyle("-fx-border-color: red;");
+            } else {
+                confirmPasswordField.setStyle("-fx-border-color: green;");
+            }
+        });
+
+        telField.textProperty().addListener((obs, oldVal, newVal) ->
+                validateField(newVal, PHONE_PATTERN, telField));
+    }
+
+    private void validateField(String value, String pattern, TextInputControl field) {
+        if (!value.matches(pattern)) {
+            field.setStyle("-fx-border-color: red;");
+        } else {
+            field.setStyle("-fx-border-color: green;");
         }
     }
 
     @FXML
-    public void handleCVUpload(ActionEvent event) {
+    private void handlePhotoUpload(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-        Stage stage = (Stage) cvText.getScene().getWindow();
-        selectedCV = fileChooser.showOpenDialog(stage);
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.jpeg"));
+
+        selectedPhoto = fileChooser.showOpenDialog(photoPreview.getScene().getWindow());
+
+        if (selectedPhoto != null) {
+            photoPreview.setImage(new Image(selectedPhoto.toURI().toString()));
+            photoPreview.setStyle("");
+        }
+    }
+
+    @FXML
+    private void handleCVUpload(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("PDF Documents", "*.pdf"));
+
+        selectedCV = fileChooser.showOpenDialog(cvLabel.getScene().getWindow());
 
         if (selectedCV != null) {
-            cvText.setText(selectedCV.getName());
+            cvLabel.setText(selectedCV.getName());
+            cvLabel.setStyle("-fx-text-fill: black;");
         }
     }
 
     @FXML
     private void ajouterFreelancer(ActionEvent event) {
-        // Vérification des champs obligatoires
-        if (nomField.getText().isEmpty() || prenomField.getText().isEmpty() ||
-                emailField.getText().isEmpty() || passwordField.getText().isEmpty() ||
-                confirmPasswordField.getText().isEmpty() || adresseField.getText().isEmpty() ||
-                experienceField.getText().isEmpty()) {
-
-            statusLabel.setText("Tous les champs obligatoires doivent être remplis.");
-            statusLabel.setTextFill(Color.RED);
+        if (!validateForm()) {
+            showStatus("Veuillez corriger les erreurs dans le formulaire", Color.RED);
             return;
         }
 
-        // Vérification du mot de passe
-        if (!passwordField.getText().equals(confirmPasswordField.getText())) {
-            statusLabel.setText("Les mots de passe ne correspondent pas.");
-            statusLabel.setTextFill(Color.RED);
-            return;
+        Freelancer freelancer = createFreelancerFromForm();
+
+        try {
+            userService.ajouterUser(freelancer);
+            showStatus("Freelancer ajouté avec succès !", Color.GREEN);
+            clearForm();
+        } catch (Exception e) {
+            showStatus("Erreur: " + e.getMessage(), Color.RED);
+            e.printStackTrace();
+        }
+    }
+
+    private boolean validateForm() {
+        boolean isValid = true;
+
+        // Validation des champs obligatoires
+        if (nomField.getText().isEmpty() || !nomField.getText().matches(NAME_PATTERN)) {
+            nomField.setStyle("-fx-border-color: red;");
+            isValid = false;
         }
 
-        // Création de l'objet Freelancer
+        if (prenomField.getText().isEmpty() || !prenomField.getText().matches(NAME_PATTERN)) {
+            prenomField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (emailField.getText().isEmpty() || !emailField.getText().matches(EMAIL_PATTERN)) {
+            emailField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (passwordField.getText().isEmpty() || !passwordField.getText().matches(PASSWORD_PATTERN)) {
+            passwordField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (!confirmPasswordField.getText().equals(passwordField.getText())) {
+            confirmPasswordField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (sexeComboBox.getValue() == null) {
+            sexeComboBox.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (telField.getText().isEmpty() || !telField.getText().matches(PHONE_PATTERN)) {
+            telField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (adresseField.getText().isEmpty()) {
+            adresseField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        try {
+            int exp = Integer.parseInt(experienceField.getText());
+            if (exp < 0) {
+                experienceField.setStyle("-fx-border-color: red;");
+                isValid = false;
+            }
+        } catch (NumberFormatException e) {
+            experienceField.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (selectedPhoto == null) {
+            photoPreview.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        if (selectedCV == null) {
+            cvLabel.setStyle("-fx-text-fill: red;");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private Freelancer createFreelancerFromForm() {
         Freelancer freelancer = new Freelancer();
         freelancer.setNom(nomField.getText());
         freelancer.setPrenom(prenomField.getText());
@@ -100,45 +212,64 @@ public class AjouterFreelancerController {
         freelancer.setPassword(passwordField.getText());
         freelancer.setSexe(sexeComboBox.getValue());
         freelancer.setTel(telField.getText());
-
-        // Ajouter les chemins des fichiers photo et CV
-        freelancer.setPhoto(selectedPhoto != null ? selectedPhoto.getAbsolutePath() : "");
-        freelancer.setCv(selectedCV != null ? selectedCV.getAbsolutePath() : "");
-
+        freelancer.setPhoto(selectedPhoto.getAbsolutePath());
+        freelancer.setCv(selectedCV.getAbsolutePath());
         freelancer.setAdresse(adresseField.getText());
         freelancer.setType("freelancer");
         freelancer.setRoles("[\"ROLE_FREELANCER\"]");
+        freelancer.setAnnees_experience(Integer.parseInt(experienceField.getText()));
 
-        try {
-            freelancer.setAnnees_experience(Integer.parseInt(experienceField.getText()));
-        } catch (NumberFormatException e) {
-            statusLabel.setText("Veuillez entrer un nombre valide pour les années d'expérience.");
-            statusLabel.setTextFill(Color.RED);
-            return;
-        }
+        return freelancer;
+    }
 
-        // Appel du service pour ajouter le freelancer
-        try {
-            userService.ajouterUser(freelancer);
-            statusLabel.setText("Freelancer ajouté avec succès !");
-            statusLabel.setTextFill(Color.GREEN);
-        } catch (Exception e) {
-            statusLabel.setText("Erreur lors de l'ajout du Freelancer.");
-            statusLabel.setTextFill(Color.RED);
-            e.printStackTrace();
-        }
+    private void showStatus(String message, Color color) {
+        statusLabel.setText(message);
+        statusLabel.setTextFill(color);
+    }
+
+    private void clearForm() {
+        // Réinitialisation des champs
+        nomField.clear();
+        prenomField.clear();
+        emailField.clear();
+        passwordField.clear();
+        confirmPasswordField.clear();
+        sexeComboBox.getSelectionModel().selectFirst();
+        telField.clear();
+        adresseField.clear();
+        experienceField.clear();
+        photoPreview.setImage(null);
+        cvLabel.setText("Aucun CV choisi");
+        selectedPhoto = null;
+        selectedCV = null;
+
+        // Réinitialisation des styles
+        resetFieldStyles();
+    }
+
+    private void resetFieldStyles() {
+        nomField.setStyle("");
+        prenomField.setStyle("");
+        emailField.setStyle("");
+        passwordField.setStyle("");
+        confirmPasswordField.setStyle("");
+        sexeComboBox.setStyle("");
+        telField.setStyle("");
+        adresseField.setStyle("");
+        experienceField.setStyle("");
+        photoPreview.setStyle("");
+        cvLabel.setStyle("-fx-text-fill: black;");
     }
 
     @FXML
     private void annuler(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PageCreationCompte.fxml"));
-            Parent root = loader.load();
-            emailField.getScene().setRoot(root);
+            Parent root = FXMLLoader.load(getClass().getResource("/index.fxml"));
+            Stage stage = (Stage) nomField.getScene().getWindow();
+            stage.setScene(new Scene(root));
         } catch (Exception e) {
+            showStatus("Erreur lors de la navigation", Color.RED);
             e.printStackTrace();
-            statusLabel.setText("Erreur lors du retour.");
-            statusLabel.setTextFill(javafx.scene.paint.Color.RED);
         }
     }
 }

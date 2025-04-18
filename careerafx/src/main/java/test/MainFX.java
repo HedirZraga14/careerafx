@@ -16,7 +16,7 @@ public class MainFX extends Application {
     public void start(Stage primaryStage) {
         try {
             // 🆕 Charge la page de connexion
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PageConnexion.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/index.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
@@ -28,6 +28,6 @@ public class MainFX extends Application {
             System.out.println("Erreur de chargement FXML : " + e.getMessage());
             e.printStackTrace();
         }
-        
+
     }
 }

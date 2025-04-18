@@ -23,14 +23,17 @@ public class ConnexionController {
         boolean isValid = false;
 
         try {
+            // Charger le driver JDBC
             Class.forName("com.mysql.cj.jdbc.Driver");
 
+            // Connexion à la base de données
             Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/careera",
-                    "root",    // Ton utilisateur MySQL
-                    ""         // Ton mot de passe MySQL
+                    "jdbc:mysql://localhost:3306/careera",  // URL de la base de données
+                    "root",    // Utilisateur MySQL
+                    ""         // Mot de passe MySQL
             );
 
+            // Requête pour vérifier les identifiants
             String query = "SELECT * FROM user WHERE email = ? AND password = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, email);
@@ -38,10 +41,12 @@ public class ConnexionController {
 
             ResultSet rs = stmt.executeQuery();
 
+            // Si un utilisateur correspond aux identifiants, il est authentifié
             if (rs.next()) {
                 isValid = true;
             }
 
+            // Fermer les ressources
             rs.close();
             stmt.close();
             connection.close();
@@ -59,6 +64,7 @@ public class ConnexionController {
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
 
+        // Vérifier si les champs sont vides
         if (email.isEmpty() || password.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Champs vides");
@@ -68,38 +74,40 @@ public class ConnexionController {
             return;
         }
 
+        // Vérification des identifiants
         boolean isAuthenticated = checkUserCredentials(email, password);
 
         if (isAuthenticated) {
             try {
-                // Charger le fichier FXML manuellement pour obtenir le contrôleur
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/PageAccueil.fxml"));
+                // Charger le fichier FXML pour la page d'accueil
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Acceuil.fxml"));
                 Parent root = loader.load();
 
-                // Récupérer le contrôleur associé
-                AccueilController accueilController = loader.getController();
-
-                // Passer l'email ou une info personnalisée
-                accueilController.setBienvenueMessage("Bienvenue, " + email + "!");
+                // Récupérer le contrôleur associé (si nécessaire, pour passer des infos comme l'email)
+                // AccueilController accueilController = loader.getController();
+                // AccueilController.setUserEmail(email); // Si tu veux passer des infos à la page d'accueil
 
                 // Afficher la page d'accueil
                 Stage stage = (Stage) emailField.getScene().getWindow();
-                stage.setScene(new Scene(root));
+                stage.setScene(new Scene(root)); // Change la scène
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
+            // Si la connexion échoue, tu pourrais afficher une alerte ou rien faire
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Connexion échouée");
-            alert.setContentText("Email ou mot de passe incorrect");
+            alert.setTitle("Erreur de connexion");
+            alert.setHeaderText(null);
+            alert.setContentText("Identifiants incorrects. Veuillez réessayer.");
             alert.showAndWait();
         }
     }
 
+    // Lors du clic sur "Créer un compte"
     @FXML
     void handleCreationCompte(ActionEvent event) {
         try {
+            // Charger le fichier FXML pour la page de création de compte
             Parent root = FXMLLoader.load(getClass().getResource("/PageCreationCompte.fxml"));
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(new Scene(root));

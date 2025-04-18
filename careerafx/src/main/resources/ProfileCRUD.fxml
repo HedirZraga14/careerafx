@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ProfileCRUDController"
+            prefWidth="800" prefHeight="600"
+            style="-fx-padding: 20; -fx-background-color: #f8fafc;">
+
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Gestion de Profil" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4338ca;"/>
+
+        <TableView fx:id="profileTable" prefHeight="400">
+            <columns>
+                <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="150"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                <TableColumn fx:id="colDomaine" text="Domaine" prefWidth="150"/>
+                <TableColumn fx:id="colTel" text="Téléphone" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="btnModifier" text="Modifier"
+                    onAction="#handleModifier"
+                    style="-fx-background-color: #f59e0b; -fx-text-fill: white;"/>
+
+            <Button fx:id="btnSupprimer" text="Supprimer" disable="true"
+                    style="-fx-background-color: #ef4444; -fx-text-fill: white;"/>
+
+            <Button text="Fermer" onAction="#handleClose"
+                    style="-fx-background-color: #64748b; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

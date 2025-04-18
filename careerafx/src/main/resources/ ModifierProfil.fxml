@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.yourapp.controllers.ModifierProfilController">
+    <VBox spacing="15" alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Modifier Profil" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <TextField fx:id="nomField" promptText="Nom" />
+        <TextField fx:id="prenomField" promptText="Prénom" />
+        <TextField fx:id="emailField" promptText="Email" />
+        <PasswordField fx:id="passwordField" promptText="Mot de passe" />
+
+        <Button text="Sauvegarder" onAction="handleModifier" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+    </VBox>
+</AnchorPane>
