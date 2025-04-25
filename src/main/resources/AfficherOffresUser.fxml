@@ -5,44 +5,82 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <AnchorPane
-        style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);" prefWidth="1500.0" prefHeight="900.0"
+        prefWidth="1500.0" prefHeight="900.0"
+        style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
         xmlns="http://javafx.com/javafx/19"
         xmlns:fx="http://javafx.com/fxml/1"
         fx:controller="controllers.AfficherOffreController">
 
-    <children>
-        <VBox spacing="15" alignment="TOP_CENTER" layoutX="0.0" layoutY="10.0" prefWidth="1000.0">
-            <padding>
-                <Insets top="30" bottom="30" left="100" right="100"/>
-            </padding>
-            <children>
+    <!-- Menu en haut -->
+    <HBox spacing="0.0"
+          alignment="CENTER_LEFT"
+          style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 3); -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1px 0;" prefWidth="1550">
+        <padding>
+            <Insets top="15" right="40" bottom="15" left="40"/>
+        </padding>
 
-                <!-- Titre -->
-                <Text text="Liste des Offres">
-                    <font>
-                        <Font name="System Bold" size="36"/> <!-- Increased font size -->
-                    </font>
-                </Text>
+        <Label text="CareEra"
+               style="-fx-font-size: 28px; -fx-text-fill: #4338ca; -fx-font-weight: 800; -fx-font-family: 'Segoe UI', 'Roboto', sans-serif;" />
 
-                <!-- Barre de recherche et bouton ajout candidatures -->
-                <HBox spacing="20" alignment="CENTER">
-                    <children>
-                        <TextField fx:id="searchField" promptText="Rechercher une offre..." maxWidth="400"/>
-                        <Button text="Rechercher"
-                                onAction="#rechercherOffre"
-                                style="-fx-background-color: #007bff; -fx-text-fill: white;"/>
-                        <Button fx:id="AjouterCandidatureBtn" text="Ajouter Candidature"
-                                style="-fx-background-color: #20c997; -fx-text-fill: white;"
-                                onAction="#ajouterCandidature"/>
-                    </children>
-                </HBox>
+        <Region HBox.hgrow="ALWAYS" />
 
-                <!-- Liste des offres -->
-                <ListView fx:id="listView" prefHeight="400.0" maxWidth="800.0"/> <!-- Increased size -->
+        <HBox spacing="0">
+            <Button fx:id="offreButton" text="Offres d'emploi" onAction="#handleOffreClick"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
+            <Button text="Freelance"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
+            <Button text="Événements"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
+            <Button text="Forum et Discussion"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20;" />
+        </HBox>
+    </HBox>
 
-            </children>
-        </VBox>
-    </children>
+    <!-- Contenu principal -->
+    <VBox spacing="15" alignment="TOP_CENTER" maxWidth="1000.0"
+          AnchorPane.topAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+        <padding>
+            <Insets top="30" bottom="30"/>
+        </padding>
+        <children>
+
+            <Text text="Liste des Offres">
+                <font>
+                    <Font name="System Bold" size="40"/>
+                </font>
+            </Text>
+
+            <HBox spacing="20" alignment="CENTER">
+                <TextField fx:id="searchField" promptText="Rechercher une offre..." maxWidth="400"
+                           style="-fx-font-size: 18px;"/>
+                <Button text="Rechercher"
+                        onAction="#rechercherOffre"
+                        style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 18px;"/>
+                <Button fx:id="AjouterCandidatureBtn" text="Ajouter Candidature"
+                        style="-fx-background-color: #20c997; -fx-text-fill: white; -fx-font-size: 18px;"
+                        onAction="#ajouterCandidature"/>
+            </HBox>
+
+            <ListView fx:id="listView" prefHeight="400.0" maxWidth="800.0"
+                      style="-fx-font-size: 18px;"/>
+
+        </children>
+    </VBox>
+
+    <VBox spacing="10" alignment="CENTER" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
+        <!-- Le bouton Quiz avec emoji et texte -->
+        <Button fx:id="quizButton" onAction="#startQuiz"
+                style="-fx-background-color: pink; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 15px 25px; -fx-border-radius: 20px; -fx-pref-width: 150px;">
+            🎓 Quiz
+        </Button>
+
+        <!-- Phrase en dessous du bouton -->
+        <Text text="Tester votre connaissance"
+              style="-fx-font-size: 18px; -fx-text-fill: #6c757d;"/>
+    </VBox>
+
 </AnchorPane>

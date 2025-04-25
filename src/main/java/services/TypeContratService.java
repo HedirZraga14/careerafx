@@ -64,6 +64,7 @@ public class TypeContratService {
         return list;
     }
 
+
     public TypeContrat getById(int id) {
         String sql = "SELECT * FROM type_contrat WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

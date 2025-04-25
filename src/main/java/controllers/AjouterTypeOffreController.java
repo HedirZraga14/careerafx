@@ -5,8 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import services.TypeOffreService;
 
 import java.io.IOException;
@@ -49,6 +51,19 @@ public class AjouterTypeOffreController {
             nomTypeOffreTF.clear(); // Réinitialiser le champ
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue : " + e.getMessage());
+        }
+    }
+    @FXML
+    private void handleOffreClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une Offre");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

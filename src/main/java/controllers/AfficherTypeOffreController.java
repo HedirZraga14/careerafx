@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.TypeContrat;
 import entities.TypeOffre;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,6 +60,45 @@ public class AfficherTypeOffreController {
             showAlert(Alert.AlertType.INFORMATION, "Succès", "TypeOffre supprimé avec succès.");
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression : " + e.getMessage());
+        }
+    }
+    @FXML
+    private void modifTypeOffre(ActionEvent event) {
+        try {
+            TypeOffre selected = listView.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner un élément.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierTypeOffre.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur de la vue chargée
+            ModifierTypeOffreController controller = loader.getController();
+            controller.setTypeOffre(selected); // On lui passe l'objet à modifier
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier un Type d' Offre ");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleOffreClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une Offre");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

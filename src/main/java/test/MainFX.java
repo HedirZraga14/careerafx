@@ -17,7 +17,7 @@ public class MainFX extends Application {
             Scene scene = new Scene(root);
             primaryStage.setTitle("CareEra - Accueil");
             primaryStage.setScene(scene);
-            primaryStage.setMaximized(true); // Agrandit la fenêtre
+            primaryStage.setMaximized(true); // Agrandit la fenêtre AjouterOffre   AfficherOffresUser
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

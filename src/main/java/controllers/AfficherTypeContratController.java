@@ -59,6 +59,34 @@ public class AfficherTypeContratController {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression : " + e.getMessage());
         }
     }
+    @FXML
+    private void modifTypeContrat(ActionEvent event) {
+        try {
+            TypeContrat selected = listView.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner un élément.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierTypeContrat.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur de la vue chargée
+            ModifierTypeContratController controller = loader.getController();
+            controller.setTypeContrat(selected); // On lui passe l'objet à modifier
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier un Type de Contrat");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     @FXML
     public void rechercher(ActionEvent actionEvent) {
@@ -96,6 +124,19 @@ public class AfficherTypeContratController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    @FXML
+    private void handleOffreClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une Offre");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

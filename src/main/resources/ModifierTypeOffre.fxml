@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.AjouterTypeContratController"
+            fx:controller="controllers.ModifierTypeOffreController"
             prefWidth="1500.0" prefHeight="900.0">
     <!-- Top section (HBox) -->
     <HBox spacing="0.0"
@@ -47,7 +47,7 @@
             </padding>
 
             <!-- Titre -->
-            <Text text="Ajouter Type Contrat">
+            <Text text="Modifier Type Offre">
                 <font>
                     <Font name="System Bold" size="30"/>
                 </font>
@@ -56,9 +56,9 @@
             <!-- Champ de saisie -->
             <VBox spacing="10" alignment="CENTER">
                 <children>
-                    <Label text="Nom du Type de Contrat" style="-fx-font-size: 16px;"/>
-                    <TextField fx:id="nomTypeContratTF"
-                               promptText="Ex : Stage, CDI, Freelance..."
+                    <Label text="Nom du Type de Offre" style="-fx-font-size: 16px;"/>
+                    <TextField fx:id="nomTypeOffreTF"
+                               promptText="Ex : Stage, Emploi..."
                                maxWidth="350"
                                style="-fx-font-size: 14px; -fx-padding: 10px;"/>
                 </children>
@@ -67,9 +67,9 @@
             <!-- Bouton Ajouter -->
             <HBox spacing="15" alignment="CENTER">
                 <children>
-                    <Button fx:id="ajouterBtn"
-                            text="Ajouter"
-                            onAction="#ajouterTypeContrat"
+                    <Button fx:id="modifierBtn"
+                            text="Modifier"
+                            onAction="#modifierTypeOffre"
                             style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px 25px;"/>
                 </children>
             </HBox>

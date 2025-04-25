@@ -88,31 +88,38 @@ public class OffreService implements Service<Offre> {
     }
 
     public List<Offre> rechercher() {
-        String req = "SELECT * FROM offre";
+        String req = "SELECT o.*, " +
+                "tc.nom AS tc_nom, " +
+                "toff.nom AS to_nom " +
+                "FROM offre o " +
+                "JOIN type_contrat tc ON o.typecontrat_id = tc.id " +
+                "JOIN type_offre toff ON o.typeoffre_id = toff.id";
+
         List<Offre> offres = new ArrayList<>();
 
         try (PreparedStatement ps = connection.prepareStatement(req);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
+                // Create TypeContrat and TypeOffre with only the name
                 TypeContrat typeContrat = new TypeContrat();
-                typeContrat.setId(rs.getInt("typecontrat_id"));
+                typeContrat.setNom(rs.getString("tc_nom"));
 
                 TypeOffre typeOffre = new TypeOffre();
-                typeOffre.setId(rs.getInt("typeoffre_id"));
+                typeOffre.setNom(rs.getString("to_nom"));
 
-                Offre offre = new Offre(
-                        rs.getInt("id"),
-                        typeContrat,
-                        typeOffre,
-                        rs.getString("nomposte"),
-                        rs.getString("entreprise"),
-                        rs.getString("localisation"),
-                        rs.getDouble("salaire"),
-                        rs.getBoolean("disponibilite"),
-                        rs.getString("image"),
-                        rs.getString("utilisateur")
-                );
+                // Create Offre object
+                Offre offre = new Offre();
+                offre.setId(rs.getInt("id"));
+                offre.setTypeContrat(typeContrat);
+                offre.setTypeOffre(typeOffre);
+                offre.setNomposte(rs.getString("nomposte"));
+                offre.setEntreprise(rs.getString("entreprise"));
+                offre.setLocalisation(rs.getString("localisation"));
+                offre.setSalaire(rs.getDouble("salaire"));
+                offre.setDisponibilite(rs.getBoolean("disponibilite"));
+                offre.setImage(rs.getString("image"));
+                offre.setUtilisateur(rs.getString("utilisateur"));
 
                 offres.add(offre);
             }
@@ -125,6 +132,11 @@ public class OffreService implements Service<Offre> {
         }
 
         return offres;
+    }
+
+    // Method to fetch all offers
+    public List<Offre> getAll() throws SQLException {
+        return rechercher();
     }
 
     public Offre getOffreById(int id) throws SQLException {
@@ -159,8 +171,4 @@ public class OffreService implements Service<Offre> {
         }
         return null; // Retourner null si aucune offre n'est trouvée
     }
-
-
 }
-
-

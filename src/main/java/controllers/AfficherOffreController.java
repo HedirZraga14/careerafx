@@ -24,37 +24,12 @@ public class AfficherOffreController {
     private ListView<Offre> listView;
 
     @FXML
-    private TextField searchField;
-
-    @FXML
-    private TextField posteTF;
-
-    @FXML
-    private TextField entrepriseTF;
-
-    @FXML
-    private TextField localisationTF;
-
-    @FXML
-    private TextField salaireTF;
+    private TextField searchField, posteTF, entrepriseTF, localisationTF, salaireTF, imageTF, utilisateurTF, typeContratTF, typeOffreTF;
 
     @FXML
     private CheckBox disponibleCB;
 
-    @FXML
-    private TextField imageTF;
-
-    @FXML
-    private TextField utilisateurTF;
-
-    @FXML
-    private TextField typeContratTF;
-
-    @FXML
-    private TextField typeOffreTF;
-
     private ObservableList<Offre> obs;
-
     private final OffreService offreService = new OffreService();
 
     @FXML
@@ -63,6 +38,27 @@ public class AfficherOffreController {
             List<Offre> offres = offreService.recuperer();
             obs = FXCollections.observableArrayList(offres);
             listView.setItems(obs);
+
+            listView.setCellFactory(param -> new ListCell<Offre>() {
+                @Override
+                protected void updateItem(Offre item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(
+                                "Nom du poste: "+ item.getNomposte() + " | " +
+                                        "Entreprise: " + item.getEntreprise() + " | " +
+                                        "Localisation: " + item.getLocalisation() + " | " +
+                                        "Salaire: " + item.getSalaire() + " | " +
+                                        (item.isDisponibilite() ? "Disponible" : "Indisponible") + " | " +
+                                        "Type Offre: " + item.getTypeOffre().getNom() + " | " +
+                                        "Type Contrat: " + item.getTypeContrat().getNom()
+                        );
+                    }
+                }
+            });
+
         } catch (SQLException e) {
             showError("Erreur lors du chargement des offres", e.getMessage());
         }
@@ -84,7 +80,6 @@ public class AfficherOffreController {
         String searchText = searchField.getText().toLowerCase().trim();
         try {
             List<Offre> toutesLesOffres = offreService.recuperer();
-
             if (searchText.isEmpty()) {
                 obs = FXCollections.observableArrayList(toutesLesOffres);
             } else {
@@ -93,7 +88,6 @@ public class AfficherOffreController {
                         .collect(Collectors.toList());
                 obs = FXCollections.observableArrayList(offresFiltrees);
             }
-
             listView.setItems(obs);
         } catch (SQLException e) {
             showError("Erreur lors de la recherche", e.getMessage());
@@ -102,16 +96,62 @@ public class AfficherOffreController {
 
     @FXML
     public void ajouterOffre(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
-            Object root = loader.load();
+        changerDeScene("/AjouterOffre.fxml", actionEvent);
+    }
 
-            // Récupérer la scène actuelle à partir de l'événement
+    @FXML
+    public void afficherCandidature(ActionEvent actionEvent) {
+        changerDeScene("/AfficherCandidaturesUser.fxml", actionEvent);
+    }
+
+    @FXML
+    public void ajouterCandidature(ActionEvent actionEvent) {
+        changerDeScene("/AjouterCandidature.fxml", actionEvent);
+    }
+
+    @FXML
+    private void startQuiz(ActionEvent actionEvent) {
+        try {
+            // Charger la nouvelle scène (Quiz.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Quiz.fxml"));
+            Parent root = loader.load();
+
+            // Obtenir le stage actuel
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
+            // Changer de scène
+            stage.setScene(new Scene(root));
+
             // Afficher la nouvelle scène
-            Scene scene = new Scene((Parent) root);
-            stage.setScene(scene);
+            stage.show();
+
+            System.out.println("Quiz démarré!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors du chargement de la scène Quiz.fxml");
+        }
+    }
+
+
+
+    @FXML
+    private void modifierOffre(ActionEvent event) {
+        try {
+            Offre selected = listView.getSelectionModel().getSelectedItem();
+            if (selected == null) {
+                showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner une offre.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierOffre.fxml"));
+            Parent root = loader.load();
+
+            ModifierOffreController controller = loader.getController();
+            controller.setOffre(selected);
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier une Offre");
+            stage.setScene(new Scene(root));
             stage.show();
 
         } catch (IOException e) {
@@ -119,6 +159,17 @@ public class AfficherOffreController {
         }
     }
 
+    private void changerDeScene(String fxmlPath, ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void clearForm() {
         posteTF.clear();
@@ -139,40 +190,25 @@ public class AfficherOffreController {
         a.setContentText(message);
         a.show();
     }
-    @FXML
-    public void afficherCandidature(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherCandidature.fxml"));
-            Parent root = loader.load();
 
-            // Récupérer la scène actuelle à partir de l'événement
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
     @FXML
-    public void ajouterCandidature(ActionEvent event) {
+    private void handleOffreClick(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCandidature.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
             Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une Offre");
             stage.setScene(new Scene(root));
             stage.show();
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-
-
 }

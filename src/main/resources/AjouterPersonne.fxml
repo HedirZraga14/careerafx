@@ -9,6 +9,7 @@
             xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
             prefWidth="1200.0" prefHeight="800.0"
             fx:controller="controllers.AjouterPersonneController">
+
    <children>
       <TextField fx:id="nomTF" layoutX="31.0" layoutY="52.0" promptText="Nom" />
       <TextField fx:id="prenomTF" layoutX="31.0" layoutY="110.0" promptText="Prénom" />

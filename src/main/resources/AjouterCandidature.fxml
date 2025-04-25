@@ -2,77 +2,95 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import java.time.LocalDateTime?>
-
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.AjouterCandidatureController"
             style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
-            prefWidth="1200.0" prefHeight="800.0">
+            prefWidth="1500.0" prefHeight="900.0">
 
-    <!-- Title Label -->
-    <Label text="Ajouter une candidature" layoutX="280" layoutY="30">
+    <!-- Top section (HBox) - Navbar full width and smaller height -->
+    <HBox spacing="0.0"
+          alignment="CENTER_LEFT"
+          style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 3); -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1px 0;" prefWidth="1550">
+        <padding>
+            <Insets top="15" right="40" bottom="15" left="40"/>
+        </padding>
+
+        <Label text="CareEra"
+               style="-fx-font-size: 28px; -fx-text-fill: #4338ca; -fx-font-weight: 800; -fx-font-family: 'Segoe UI', 'Roboto', sans-serif;" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <HBox spacing="0">
+            <Button fx:id="offreButton" text="Offres d'emploi" onAction="#handleOffreClick"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
+            <Button text="Freelance"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
+            <Button text="Événements"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
+            <Button text="Forum et Discussion"
+                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20;" />
+        </HBox>
+    </HBox>
+
+
+    <Label text="Ajouter une candidature" layoutX="550" layoutY="120">
         <font>
-            <Font name="System Bold" size="30.0" /> <!-- Increased font size -->
+            <Font name="System Bold" size="48.0"/>
         </font>
     </Label>
 
-    <!-- Form Layout using VBox -->
-    <VBox spacing="25" layoutX="100" layoutY="100" prefWidth="700" alignment="CENTER_LEFT">
-        <!-- ID de l'offre -->
-        <HBox spacing="20">
-            <Label text="ID de l'offre :" />
-            <TextField fx:id="offreIdTF" prefWidth="350"/>
-        </HBox>
+    <!-- Main content centered in VBox -->
+    <HBox alignment="CENTER" spacing="40" layoutX="300" layoutY="220" prefWidth="900"> <!-- modifié de 180 à 220 -->
+        <VBox spacing="25" alignment="CENTER" prefWidth="700">
 
-        <!-- CV (URL) -->
-        <HBox spacing="20">
-            <Label text="CV (URL):" />
-            <TextField fx:id="cvTF" prefWidth="350"/>
-        </HBox>
+            <!-- Choix de l'offre -->
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="Offre :" style="-fx-font-size: 20px;"/>
+                <ComboBox fx:id="offreNomCB" prefWidth="350"/>
+            </HBox>
 
-        <!-- Lettre de Motivation (URL) -->
-        <HBox spacing="20">
-            <Label text="Lettre de Motivation (URL):" />
-            <TextArea fx:id="lettreMotivationTA" prefWidth="350" prefHeight="120"/>
-        </HBox>
+            <!-- Utilisateur -->
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="Votre Nom:" style="-fx-font-size: 20px;"/>
+                <TextField fx:id="utilisateurTF" prefWidth="350"/>
+            </HBox>
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="Date de soumission:" style="-fx-font-size: 20px;"/>
+                <DatePicker fx:id="dateSoumissionDP" prefWidth="350"/>
+            </HBox>
+            <!-- Statut -->
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="Statut:" style="-fx-font-size: 20px;"/>
+                <ComboBox fx:id="statutCB" prefWidth="350"/>
+            </HBox>
 
-        <!-- Statut -->
-        <HBox spacing="20">
-            <Label text="Statut:" />
-            <ComboBox fx:id="statutCB" prefWidth="350">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="EN_ATTENTE"/>
-                        <String fx:value="ACCEPTEE"/>
-                        <String fx:value="REFUSEE"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
-        </HBox>
+            <!-- CV -->
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="CV (URL):" style="-fx-font-size: 20px;"/>
+                <TextField fx:id="cvTF" prefWidth="350"/>
+            </HBox>
 
-        <!-- Utilisateur -->
-        <HBox spacing="20">
-            <Label text="Utilisateur:" />
-            <TextField fx:id="utilisateurTF" prefWidth="350"/>
-        </HBox>
+            <!-- Lettre de Motivation -->
+            <HBox spacing="20" alignment="CENTER">
+                <Label text="Lettre de Motivation:" style="-fx-font-size: 20px;"/>
+                <TextArea fx:id="lettreMotivationTA" prefWidth="350" prefHeight="120"/>
+            </HBox>
 
-        <!-- Date Soumission -->
-        <HBox spacing="20">
-            <Label text="Date Soumission:" />
-            <DatePicker fx:id="dateSoumissionDP" prefWidth="350"/>
-        </HBox>
-    </VBox>
+        </VBox>
+    </HBox>
 
-    <!-- Buttons -->
-    <HBox spacing="15" alignment="CENTER" layoutY="580" layoutX="100">
-        <Button text="Ajouter Candidature" onAction="#ajouterCandidature" style="-fx-background-color: #28a745; -fx-text-fill: white;" prefWidth="200"/>
-        <Button text="Afficher Candidature" onAction="#afficherCandidature" style="-fx-background-color: #007bff; -fx-text-fill: white;" prefWidth="200"/>
-        <Button text="Retour" onAction="#afficherOffre" style="-fx-background-color: #6c757d; -fx-text-fill: white;" prefWidth="200"/>
+    <!-- Buttons Section centered -->
+    <HBox spacing="15" alignment="CENTER" layoutX="300" layoutY="700">
+        <Button text="Ajouter Candidature" fx:id="ajouterBtn" onAction="#ajouterCandidature"
+                style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 20px;" prefWidth="250"/>
+        <Button text="Afficher Candidature" onAction="#afficherCandidature"
+                style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 20px;" prefWidth="250"/>
+        <Button text="Retour" onAction="#afficherOffre"
+                style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-size: 20px;" prefWidth="250"/>
     </HBox>
 
 </AnchorPane>
