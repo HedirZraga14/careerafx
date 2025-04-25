@@ -4,6 +4,7 @@ public class Question {
     private String question;
     private String[] options;
     private int correctAnswerIndex;
+    private int score;
 
     public Question(String question, String[] options, int correctAnswerIndex) {
         this.question = question;
@@ -21,5 +22,11 @@ public class Question {
 
     public int getCorrectAnswerIndex() {
         return correctAnswerIndex;
+    }
+    public int getScore() {
+        return score;
+    }
+    public void setQuestion(String question) {
+        this.question = question;
     }
 }

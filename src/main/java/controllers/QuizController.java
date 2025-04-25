@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Question;
+import entities.QuizResult;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -8,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import services.QuizResultService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +26,25 @@ public class QuizController {
     private int timeLeft = 30; // en secondes
     private Timeline timeline;
 
+    private QuizResultService quizResultService = new QuizResultService(); // Service to save the result
+
     @FXML
     public void initialize() {
         questions = loadQuestions();
         answerGroups = new ArrayList<>();
     }
 
-    @FXML private Button startQuizButton;  // Ajoute cette ligne pour référencer le bouton
+    @FXML private Button startQuizButton;  // Button reference for starting the quiz
 
     @FXML
     private void startQuiz() {
         questionsContainer.setVisible(true);
         submitButton.setDisable(false);
 
-        // Cacher le bouton Démarrer
+        // Hide the start button
         startQuizButton.setVisible(false);
 
-        // Démarrer le timer
+        // Start the timer
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateTimer()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -69,7 +73,7 @@ public class QuizController {
             timerText.setText("Temps restant: " + timeLeft);
         } else {
             timeline.stop();
-            submitQuiz(); // auto-submit
+            submitQuiz(); // auto-submit when time is up
         }
     }
 
@@ -79,6 +83,7 @@ public class QuizController {
 
         score = 0;
 
+        // Calculate the score
         for (int i = 0; i < questions.size(); i++) {
             ToggleGroup group = answerGroups.get(i);
             Question question = questions.get(i);
@@ -89,14 +94,21 @@ public class QuizController {
             }
         }
 
+        // Display score to the user
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Votre score est : " + score + "/" + questions.size());
         alert.showAndWait();
+
+        // Save the result in the database
+        QuizResult quizResult = new QuizResult(score, questions.size()); // Replace "User123" with the actual username
+        quizResultService.saveQuizResult(quizResult); // Save the result to the database
+
+        // Optionally, you can display the result in a new window or do any other post-quiz logic
     }
 
     private List<Question> loadQuestions() {
         List<Question> questionList = new ArrayList<>();
 
-        // Créer des questions d'exemple
+        // Sample questions
         questionList.add(new Question("Quel est le capital de la France ?", new String[]{"Paris", "Londres", "Berlin", "Madrid"}, 0));
         questionList.add(new Question("Quelle est la couleur du ciel ?", new String[]{"Bleu", "Rouge", "Vert", "Jaune"}, 0));
         questionList.add(new Question("Quel est l'élément chimique dont le symbole est 'O' ?", new String[]{"Oxygène", "Or", "Ozone", "Osmium"}, 0));

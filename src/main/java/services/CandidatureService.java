@@ -6,6 +6,7 @@ import entities.Offre;
 import utils.MyDatabase;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,5 +132,14 @@ public class CandidatureService {
         ps.setString(1, c.getStatut().name());
         ps.setInt(2, c.getId());
         return ps.executeUpdate() > 0;
+    }
+    public List<Candidature> recupstat() {
+        Offre mockOffre = new Offre();
+        return List.of(
+                new Candidature(1, mockOffre, Candidature.StatutCandidature.EN_ATTENTE, LocalDateTime.now(), "user1", "cv1", "lettre1"),
+                new Candidature(2, mockOffre, Candidature.StatutCandidature.ACCEPTEE, LocalDateTime.now(), "user2", "cv2", "lettre2"),
+                new Candidature(3, mockOffre, Candidature.StatutCandidature.REFUSEE, LocalDateTime.now(), "user3", "cv3", "lettre3"),
+                new Candidature(4, mockOffre, Candidature.StatutCandidature.EN_ATTENTE, LocalDateTime.now(), "user4", "cv4", "lettre4")
+        );
     }
 }

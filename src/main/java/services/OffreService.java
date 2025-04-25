@@ -133,7 +133,14 @@ public class OffreService implements Service<Offre> {
 
         return offres;
     }
-
+    //pour statistique
+    public List<Offre> recupstat() {
+        return List.of(
+                new Offre(new TypeContrat("CDI"), null, "", "", "", 1200, true, "", ""),
+                new Offre(new TypeContrat("CDD"), null, "", "", "", 1000, true, "", ""),
+                new Offre(new TypeContrat("CIVP"), null, "", "", "", 1500, true, "", "")
+        );
+    }
     // Method to fetch all offers
     public List<Offre> getAll() throws SQLException {
         return rechercher();

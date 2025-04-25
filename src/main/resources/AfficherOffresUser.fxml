@@ -55,7 +55,7 @@
             </Text>
 
             <HBox spacing="20" alignment="CENTER">
-                <TextField fx:id="searchField" promptText="Rechercher une offre..." maxWidth="400"
+                <TextField fx:id="searchField" promptText="Rechercher une offre  par nom, type offre, type contrat, localisation.." maxWidth="400"
                            style="-fx-font-size: 18px;"/>
                 <Button text="Rechercher"
                         onAction="#rechercherOffre"

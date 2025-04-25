@@ -84,7 +84,10 @@ public class AfficherOffreController {
                 obs = FXCollections.observableArrayList(toutesLesOffres);
             } else {
                 List<Offre> offresFiltrees = toutesLesOffres.stream()
-                        .filter(o -> o.getNomposte().toLowerCase().contains(searchText))
+                        .filter(o -> o.getNomposte().toLowerCase().contains(searchText)
+                                || o.getTypeOffre().getNom().toLowerCase().contains(searchText)
+                                || o.getTypeContrat().getNom().toLowerCase().contains(searchText)
+                                || o.getLocalisation().toLowerCase().contains(searchText))
                         .collect(Collectors.toList());
                 obs = FXCollections.observableArrayList(offresFiltrees);
             }
@@ -211,4 +214,19 @@ public class AfficherOffreController {
             e.printStackTrace();
         }
     }
+    @FXML
+    void afficherStatistiques(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Statistiques.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Statistiques des Offres et Candidatures");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
