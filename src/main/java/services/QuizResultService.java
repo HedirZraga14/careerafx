@@ -2,7 +2,7 @@ package services;
 
 import entities.QuizResult;
 
-public class QuizResultService {
+public class  QuizResultService {
 
     // This method should interact with the database (e.g., via JDBC or an ORM framework like Hibernate)
     public void saveQuizResult(QuizResult quizResult) {

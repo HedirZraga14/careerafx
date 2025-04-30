@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ChatbotController"
+            prefHeight="900.0" prefWidth="1500.0">
+
+    <!-- Main VBox to center the content -->
+    <VBox spacing="20" alignment="CENTER" AnchorPane.topAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label text=" 🤖 Chatbot" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
+
+        <!-- Chat area (TextArea) with adjusted width and border -->
+        <TextArea fx:id="chatArea" prefHeight="300.0" prefWidth="100.0" wrapText="true" editable="false"
+                  style="-fx-border-color: #4CAF50; -fx-border-width: 2px; -fx-background-color: #f0f0f0; -fx-font-size: 14px;"/>
+
+        <!-- User input (TextField) -->
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="userInput" prefWidth="280.0"/>
+            <Button fx:id="sendButton" text="Send" onAction="#sendMessage"/>
+        </HBox>
+    </VBox>
+
+</AnchorPane>

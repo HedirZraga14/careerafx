@@ -134,6 +134,29 @@ public class AfficherOffreController {
             System.out.println("Erreur lors du chargement de la scène Quiz.fxml");
         }
     }
+    @FXML
+    private void chatbot(ActionEvent actionEvent) {
+        try {
+            // Charger la nouvelle scène (Quiz.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chatbot.fxml"));
+            Parent root = loader.load();
+
+            // Obtenir le stage actuel
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Changer de scène
+            stage.setScene(new Scene(root));
+
+            // Afficher la nouvelle scène
+            stage.show();
+
+            System.out.println("chatbott!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors du chargement de la scène chatbot.fxml");
+        }
+    }
+
 
 
 

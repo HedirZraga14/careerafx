@@ -144,4 +144,8 @@ public class AfficherCandidaturesUserController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public void exporterPDF(ActionEvent actionEvent) {
+
+    }
 }

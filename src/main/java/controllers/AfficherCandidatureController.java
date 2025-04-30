@@ -1,76 +1,103 @@
 package controllers;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 import entities.Candidature;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import services.CandidatureService;
 
-
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class AfficherCandidatureController {
 
-    public TableView<Candidature> candidatureTV;
-    public TableColumn<Candidature, Integer> idCol;
-    public TableColumn<Candidature, String> utilisateurCol;
-    public TableColumn<Candidature, String> statutCol;
-    public TableColumn<Candidature, String> cvCol;
-    public TableColumn<Candidature, String> lettreCol;
-    public Button supprimerBtn;
+    @FXML
+    private ListView<Candidature> listView;
+
+    @FXML
+    private Button supprimerBtn;
+
+    @FXML
+    private Button exportPdfBtn;
 
     @FXML
     public void initialize() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        utilisateurCol.setCellValueFactory(new PropertyValueFactory<>("utilisateur"));
-        statutCol.setCellValueFactory(new PropertyValueFactory<>("statut"));
-        cvCol.setCellValueFactory(new PropertyValueFactory<>("cv"));
-        lettreCol.setCellValueFactory(new PropertyValueFactory<>("lettreMotivation"));
+        refreshListView();
+    }
 
-        refreshTable();
+    private void refreshListView() {
+        try {
+            ObservableList<Candidature> list = FXCollections.observableArrayList(new CandidatureService().getAll());
+            listView.setItems(list);
+        } catch (SQLException e) {
+            showAlert("Erreur chargement des candidatures : " + e.getMessage());
+        }
     }
 
     @FXML
-    private void handleOffreClick(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter une Offre");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void refreshTable() {
-        try {
-            ObservableList<Candidature> list = FXCollections.observableArrayList(new CandidatureService().getAll());
-            candidatureTV.setItems(list);
-        } catch (SQLException e) {
-            new javafx.scene.control.Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
-    }
-
-    public void supprimerCandidature() {
-        Candidature selected = candidatureTV.getSelectionModel().getSelectedItem();
+    private void supprimerCandidature(ActionEvent event) {
+        Candidature selected = listView.getSelectionModel().getSelectedItem();
         if (selected != null) {
             try {
                 new CandidatureService().supprimer(selected.getId());
-                refreshTable();
+                refreshListView();
             } catch (SQLException e) {
-                new javafx.scene.control.Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+                showAlert("Erreur suppression : " + e.getMessage());
             }
+        } else {
+            showAlert("Veuillez sélectionner une candidature à supprimer.");
         }
+    }
+
+    @FXML
+    public void exporterPDF(ActionEvent actionEvent) {
+        Candidature selected = listView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("Veuillez sélectionner une candidature à exporter.");
+            return;
+        }
+
+        Document document = new Document();
+        try {
+            // Le nom du fichier sera TOUJOURS "Candidature.pdf"
+            String fileName = "Candidature.pdf";
+
+            PdfWriter.getInstance(document, new FileOutputStream(fileName));
+            document.open();
+
+            document.add(new Paragraph("Détails de la Candidature"));
+            document.add(new Paragraph("------------------------------"));
+            document.add(new Paragraph("ID Candidature : " + selected.getId()));
+            document.add(new Paragraph("Offre ID : " + selected.getOffre().getId()));
+            document.add(new Paragraph("Statut : " + selected.getStatut()));
+            document.add(new Paragraph("Date de Soumission : " + selected.getDateSoumission()));
+            document.add(new Paragraph("Utilisateur : " + selected.getUtilisateur()));
+            document.add(new Paragraph("CV : " + selected.getCv()));
+            document.add(new Paragraph("Lettre de Motivation : " + selected.getLettreMotivation()));
+
+            showAlert("PDF exporté avec succès : " + fileName);
+
+        } catch (DocumentException | IOException e) {
+            showAlert("Erreur lors de l'export PDF : " + e.getMessage());
+        } finally {
+            document.close();
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
