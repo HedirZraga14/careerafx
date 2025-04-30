@@ -14,9 +14,16 @@ public class OffreService implements Service<Offre> {
     private final Connection connection;
 
     public OffreService() {
-        this.connection = MyDatabase.getInstance().getCnx();
-        if (this.connection == null) {
-            throw new IllegalStateException("Database connection is not initialized.");
+        try {
+            this.connection = MyDatabase.getInstance().getCnx();
+            if (this.connection == null) {
+                throw new IllegalStateException("La connexion à la base de données n'a pas pu être établie.");
+            }
+            if (this.connection.isClosed()) {
+                throw new IllegalStateException("La connexion à la base de données est fermée.");
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Erreur lors de la vérification de la connexion à la base de données.", e);
         }
     }
 
@@ -39,8 +46,7 @@ public class OffreService implements Service<Offre> {
             ps.executeUpdate();
             System.out.println("Offre ajoutée avec succès.");
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error while adding offer.", e);
+            throw new SQLException("Erreur lors de l'ajout de l'offre.", e);
         }
     }
 
@@ -63,8 +69,7 @@ public class OffreService implements Service<Offre> {
             ps.executeUpdate();
             System.out.println("Offre modifiée avec succès.");
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Error while updating offer.");
+            System.err.println("Erreur lors de la modification de l'offre.");
         }
     }
 
@@ -77,8 +82,7 @@ public class OffreService implements Service<Offre> {
             ps.executeUpdate();
             System.out.println("Offre supprimée avec succès.");
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Error while deleting offer.");
+            System.err.println("Erreur lors de la suppression de l'offre.");
         }
     }
 
@@ -89,8 +93,8 @@ public class OffreService implements Service<Offre> {
 
     public List<Offre> rechercher() {
         String req = "SELECT o.*, " +
-                "tc.nom AS tc_nom, " +
-                "toff.nom AS to_nom " +
+                "tc.id AS tc_id, tc.nom AS tc_nom, " +
+                "toff.id AS toff_id, toff.nom AS toff_nom " +
                 "FROM offre o " +
                 "JOIN type_contrat tc ON o.typecontrat_id = tc.id " +
                 "JOIN type_offre toff ON o.typeoffre_id = toff.id";
@@ -101,14 +105,14 @@ public class OffreService implements Service<Offre> {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                // Create TypeContrat and TypeOffre with only the name
                 TypeContrat typeContrat = new TypeContrat();
+                typeContrat.setId(rs.getInt("tc_id"));
                 typeContrat.setNom(rs.getString("tc_nom"));
 
                 TypeOffre typeOffre = new TypeOffre();
-                typeOffre.setNom(rs.getString("to_nom"));
+                typeOffre.setId(rs.getInt("toff_id"));
+                typeOffre.setNom(rs.getString("toff_nom"));
 
-                // Create Offre object
                 Offre offre = new Offre();
                 offre.setId(rs.getInt("id"));
                 offre.setTypeContrat(typeContrat);
@@ -124,16 +128,14 @@ public class OffreService implements Service<Offre> {
                 offres.add(offre);
             }
 
-            System.out.println(offres);
-
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Error while retrieving offers.");
+            System.err.println("Erreur lors de la récupération des offres.");
         }
 
         return offres;
     }
-    //pour statistique
+
+    // Example method for statistics
     public List<Offre> recupstat() {
         return List.of(
                 new Offre(new TypeContrat("CDI"), null, "", "", "", 1200, true, "", ""),
@@ -141,6 +143,7 @@ public class OffreService implements Service<Offre> {
                 new Offre(new TypeContrat("CIVP"), null, "", "", "", 1500, true, "", "")
         );
     }
+
     // Method to fetch all offers
     public List<Offre> getAll() throws SQLException {
         return rechercher();
@@ -153,18 +156,16 @@ public class OffreService implements Service<Offre> {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // Récupération des objets associés à TypeContrat et TypeOffre
                 TypeContrat typeContrat = new TypeContrat();
-                typeContrat.setId(rs.getInt("typecontrat_id")); // En supposant que typecontrat_id est la clé étrangère pour TypeContrat
+                typeContrat.setId(rs.getInt("typecontrat_id"));
 
                 TypeOffre typeOffre = new TypeOffre();
-                typeOffre.setId(rs.getInt("typeoffre_id")); // En supposant que typeoffre_id est la clé étrangère pour TypeOffre
+                typeOffre.setId(rs.getInt("typeoffre_id"));
 
-                // Création de l'objet Offre avec les données récupérées
                 Offre offre = new Offre();
                 offre.setId(rs.getInt("id"));
-                offre.setTypeContrat(typeContrat); // Set TypeContrat
-                offre.setTypeOffre(typeOffre);     // Set TypeOffre
+                offre.setTypeContrat(typeContrat);
+                offre.setTypeOffre(typeOffre);
                 offre.setNomposte(rs.getString("nomposte"));
                 offre.setEntreprise(rs.getString("entreprise"));
                 offre.setLocalisation(rs.getString("localisation"));
@@ -173,9 +174,9 @@ public class OffreService implements Service<Offre> {
                 offre.setImage(rs.getString("image"));
                 offre.setUtilisateur(rs.getString("utilisateur"));
 
-                return offre; // Retourner l'objet Offre créé
+                return offre;
             }
         }
-        return null; // Retourner null si aucune offre n'est trouvée
+        return null;
     }
 }

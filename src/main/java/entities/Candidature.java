@@ -17,6 +17,7 @@ public class Candidature {
     private String utilisateur;
     private String cv;
     private String lettreMotivation;
+    private Offre position;
 
     // Default constructor
     public Candidature() {
@@ -102,6 +103,12 @@ public class Candidature {
 
     public void setLettreMotivation(String lettreMotivation) {
         this.lettreMotivation = lettreMotivation;
+    }
+
+
+
+    public Offre getPosition() {
+        return position;
     }
 
     // Utility method (optional)

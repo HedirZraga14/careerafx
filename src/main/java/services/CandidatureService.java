@@ -9,13 +9,16 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 public class CandidatureService {
 
     private final Connection connection;
+    private final PDFService pdfService;
 
     public CandidatureService() {
         this.connection = MyDatabase.getInstance().getCnx(); // Assure-toi que getCnx() retourne bien un Connection
+        this.pdfService = new PDFService();
     }
 
     public List<Candidature> getAll() throws SQLException {
@@ -114,7 +117,7 @@ public class CandidatureService {
     }
 
     /**
-     * Supprime une candidature selon l’ID
+     * Supprime une candidature selon l'ID
      */
     public boolean supprimer(int id) throws SQLException {
         String query = "DELETE FROM candidature WHERE id = ?";
@@ -124,7 +127,7 @@ public class CandidatureService {
     }
 
     /**
-     * Modifie le statut d’une candidature
+     * Modifie le statut d'une candidature
      */
     public boolean modifier(Candidature c) throws SQLException {
         String query = "UPDATE candidature SET statut = ? WHERE id = ?";
@@ -141,5 +144,14 @@ public class CandidatureService {
                 new Candidature(3, mockOffre, Candidature.StatutCandidature.REFUSEE, LocalDateTime.now(), "user3", "cv3", "lettre3"),
                 new Candidature(4, mockOffre, Candidature.StatutCandidature.EN_ATTENTE, LocalDateTime.now(), "user4", "cv4", "lettre4")
         );
+    }
+
+    public void generatePDFForAcceptedCandidature(Candidature candidature) {
+        if (candidature.getStatut() == StatutCandidature.ACCEPTEE) {
+            // Use absolute path for PDF generation
+            String userHome = System.getProperty("user.home");
+            String outputPath = userHome + File.separator + "Downloads" + File.separator + "candidature_" + candidature.getId() + ".pdf";
+            pdfService.generateCandidaturePDF(candidature, outputPath);
+        }
     }
 }

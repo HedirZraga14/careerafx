@@ -1,28 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Pos?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.ChatbotController"
-            prefHeight="900.0" prefWidth="1500.0">
+            style="-fx-background-color: #f5f5f5;"
+            prefWidth="1500.0">
 
-    <!-- Main VBox to center the content -->
-    <VBox spacing="20" alignment="CENTER" AnchorPane.topAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <Label text=" 🤖 Chatbot" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;"/>
+    <!-- ScrollPane wraps everything to allow full-page scrolling -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                style="-fx-background-color: transparent;">
 
-        <!-- Chat area (TextArea) with adjusted width and border -->
-        <TextArea fx:id="chatArea" prefHeight="300.0" prefWidth="100.0" wrapText="true" editable="false"
-                  style="-fx-border-color: #4CAF50; -fx-border-width: 2px; -fx-background-color: #f0f0f0; -fx-font-size: 14px;"/>
+        <!-- VBox with all content inside -->
+        <VBox spacing="20" alignment="CENTER" fillWidth="true">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
 
-        <!-- User input (TextField) -->
-        <HBox spacing="10" alignment="CENTER">
-            <TextField fx:id="userInput" prefWidth="280.0"/>
-            <Button fx:id="sendButton" text="Send" onAction="#sendMessage"/>
-        </HBox>
-    </VBox>
+            <!-- Header -->
+            <VBox spacing="10" alignment="CENTER"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;"
+                  maxWidth="1000">
+                <Label text="🤖 Assistant Virtuel"
+                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                <Label text="Votre guide pour le développement professionnel"
+                       style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" />
+            </VBox>
 
+            <!-- Chat Box -->
+            <VBox spacing="10"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;"
+                  maxWidth="1000">
+
+                <!-- Chat Display -->
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            style="-fx-background-color: transparent;"
+                            prefHeight="400">
+                    <TextArea fx:id="chatArea"
+                              style="-fx-background-color: transparent; -fx-border-color: #e0e0e0; -fx-border-radius: 5;"
+                              wrapText="true"
+                              editable="false"
+                              focusTraversable="false"
+                              prefHeight="400"/>
+                </ScrollPane>
+
+                <!-- Input -->
+                <HBox spacing="10" alignment="CENTER">
+                    <TextField fx:id="userInput"
+                               promptText="Posez votre question ici..."
+                               style="-fx-background-color: #f8f9fa; -fx-border-color: #e0e0e0; -fx-border-radius: 5;"
+                               prefWidth="900" />
+                    <Button fx:id="sendButton"
+                            text="Envoyer"
+                            onAction="#handleSendMessage"
+                            style="-fx-background-color: #4e9fd1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
+                            disable="true" />
+                </HBox>
+            </VBox>
+
+            <!-- Help Section -->
+            <VBox spacing="5" alignment="CENTER"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;"
+                  maxWidth="1000">
+                <Label text="Exemples de questions :"
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                <Label text="• Comment améliorer mon CV ?"
+                       style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                <Label text="• Comment préparer un entretien d'embauche ?"
+                       style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                <Label text="• Comment négocier mon salaire ?"
+                       style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

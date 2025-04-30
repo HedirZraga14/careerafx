@@ -13,7 +13,17 @@ public class Offre {
     private String utilisateur;
 
     public Offre() {}
-    public Offre(String nomPoste, String entreprise, String localisation, TypeContrat typeContrat, TypeOffre typeOffre, double salaire, boolean disponibilite, String image, String utilisateur) {
+
+    public Offre(String nomposte, String entreprise, String localisation, TypeContrat typeContrat, TypeOffre typeOffre, double salaire, boolean disponibilite, String image, String utilisateur) {
+        this.nomposte = nomposte;
+        this.entreprise = entreprise;
+        this.localisation = localisation;
+        this.typeContrat = typeContrat;
+        this.typeOffre = typeOffre;
+        this.salaire = salaire;
+        this.disponibilite = disponibilite;
+        this.image = image;
+        this.utilisateur = utilisateur;
     }
 
     public Offre(int id, TypeContrat typeContrat, TypeOffre typeOffre, String nomposte, String entreprise,

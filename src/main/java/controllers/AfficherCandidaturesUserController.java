@@ -11,11 +11,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import services.CandidatureService;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,6 +27,7 @@ import java.util.List;
 public class AfficherCandidaturesUserController {
 
     @FXML private ListView<Candidature> listView;
+    @FXML private Button exportPdfBtn;
     private ObservableList<Candidature> obs;
     private final CandidatureService cs = new CandidatureService();
 
@@ -30,6 +35,14 @@ public class AfficherCandidaturesUserController {
     public void initialize() {
         try {
             chargerCandidatures();
+            // Add selection listener to show/hide PDF button
+            listView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                if (newVal != null && newVal.getStatut() == StatutCandidature.ACCEPTEE) {
+                    exportPdfBtn.setVisible(true);
+                } else {
+                    exportPdfBtn.setVisible(false);
+                }
+            });
         } catch (SQLException e) {
             showAlert("Erreur lors du chargement des candidatures : " + e.getMessage());
         }
@@ -146,6 +159,31 @@ public class AfficherCandidaturesUserController {
     }
 
     public void exporterPDF(ActionEvent actionEvent) {
-
+        Candidature selected = listView.getSelectionModel().getSelectedItem();
+        if (selected != null && selected.getStatut() == StatutCandidature.ACCEPTEE) {
+            try {
+                // Use the same path as in the service
+                String userHome = System.getProperty("user.home");
+                String pdfPath = userHome + File.separator + "Downloads" + File.separator + "candidature_" + selected.getId() + ".pdf";
+                cs.generatePDFForAcceptedCandidature(selected);
+                
+                // Open PDF with system default application
+                File pdfFile = new File(pdfPath);
+                if (pdfFile.exists()) {
+                    try {
+                        java.awt.Desktop.getDesktop().open(pdfFile);
+                        showAlert("PDF généré avec succès pour la candidature #" + selected.getId() + "\nEmplacement: " + pdfFile.getAbsolutePath());
+                    } catch (IOException e) {
+                        showAlert("Le PDF a été généré mais n'a pas pu être ouvert automatiquement.\nVous pouvez le trouver ici: " + pdfFile.getAbsolutePath());
+                    }
+                } else {
+                    showAlert("Erreur: Le fichier PDF n'a pas été créé correctement à l'emplacement: " + pdfFile.getAbsolutePath());
+                }
+            } catch (Exception e) {
+                showAlert("Erreur lors de la génération du PDF : " + e.getMessage());
+            }
+        } else {
+            showAlert("Veuillez sélectionner une candidature acceptée pour générer le PDF.");
+        }
     }
 }
