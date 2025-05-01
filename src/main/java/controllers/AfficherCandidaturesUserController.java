@@ -14,8 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import services.CandidatureService;
 
@@ -47,6 +45,7 @@ public class AfficherCandidaturesUserController {
             showAlert("Erreur lors du chargement des candidatures : " + e.getMessage());
         }
     }
+
     @FXML
     private void handleOffreClick(ActionEvent event) {
         try {
@@ -72,15 +71,33 @@ public class AfficherCandidaturesUserController {
                 super.updateItem(candidature, empty);
                 if (empty || candidature == null) {
                     setText(null);
+                    setStyle("");
                 } else {
                     setText(String.format("Candidature #%d - Offre ID: %d - Statut: %s",
                             candidature.getId(),
                             candidature.getOffre().getId(),
                             candidature.getStatut()));
+
+                    // Appliquer la couleur selon le statut
+                    switch (candidature.getStatut()) {
+                        case ACCEPTEE:
+                            setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+                            break;
+                        case REFUSEE:
+                            setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                            break;
+                        case EN_ATTENTE:
+                            setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
+                            break;
+                        default:
+                            setStyle("");
+                            break;
+                    }
                 }
             }
         });
     }
+
 
     @FXML
     public void supprimerCandidature(ActionEvent actionEvent) {

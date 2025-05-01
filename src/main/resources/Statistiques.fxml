@@ -30,4 +30,5 @@
               prefHeight="600.0"
               style="-fx-padding: 20;" />
     </VBox>
+
 </AnchorPane>

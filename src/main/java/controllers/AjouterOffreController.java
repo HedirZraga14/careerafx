@@ -12,11 +12,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.OffreService;
 import services.TypeContratService;
 import services.TypeOffreService;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -37,10 +41,19 @@ public class AjouterOffreController implements Initializable {
     public TextField utilisateurTF;
     public Button gererContratBtn;
     public Button gererOffreBtn;
+    @FXML
+    private ImageView imagePreview;
+    @FXML
+    private Label imageNameLabel;
 
     // Mappage nom -> objet
     private Map<String, TypeContrat> mapTypeContrat = new HashMap<>();
     private Map<String, TypeOffre> mapTypeOffre = new HashMap<>();
+
+    private File selectedImageFile;
+    private final OffreService offreService = new OffreService();
+    private final TypeContratService typeContratService = new TypeContratService();
+    private final TypeOffreService typeOffreService = new TypeOffreService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -55,12 +68,10 @@ public class AjouterOffreController implements Initializable {
 
     private void loadTypeContrats() {
         try {
-            TypeContratService tcs = new TypeContratService();
-            List<TypeContrat> listContrats = tcs.recuperer();
-            for (TypeContrat tc : listContrats) {
-                mapTypeContrat.put(tc.getNom(), tc);
-            }
-            typeContratCB.setItems(FXCollections.observableArrayList(mapTypeContrat.keySet()));
+            typeContratService.recuperer().forEach(typeContrat -> {
+                typeContratCB.getItems().add(typeContrat.getNom());
+                mapTypeContrat.put(typeContrat.getNom(), typeContrat);
+            });
         } catch (SQLException e) {
             showError("Erreur de chargement des types de contrat", e.getMessage());
         }
@@ -68,12 +79,10 @@ public class AjouterOffreController implements Initializable {
 
     private void loadTypeOffres() {
         try {
-            TypeOffreService tos = new TypeOffreService();
-            List<TypeOffre> listOffres = tos.recuperer();
-            for (TypeOffre to : listOffres) {
-                mapTypeOffre.put(to.getNom(), to);
-            }
-            typeOffreCB.setItems(FXCollections.observableArrayList(mapTypeOffre.keySet()));
+            typeOffreService.recuperer().forEach(typeOffre -> {
+                typeOffreCB.getItems().add(typeOffre.getNom());
+                mapTypeOffre.put(typeOffre.getNom(), typeOffre);
+            });
         } catch (SQLException e) {
             showError("Erreur de chargement des types d'offre", e.getMessage());
         }
@@ -111,46 +120,120 @@ public class AjouterOffreController implements Initializable {
     }
 
     public void ajouterOffre(ActionEvent actionEvent) {
-        OffreService os = new OffreService();
         try {
-            // Validation des champs
-            if (isFormInvalid()) {
-                throw new IllegalArgumentException("Tous les champs obligatoires doivent être remplis.");
+            if (validateInputs()) {
+                double salaire = parseSalaire();
+                if (salaire <= 0) {
+                    throw new IllegalArgumentException("Le salaire doit être positif.");
+                }
+
+                // Récupérer les objets à partir du ComboBox
+                TypeContrat typeContrat = mapTypeContrat.get(typeContratCB.getValue());
+                TypeOffre typeOffre = mapTypeOffre.get(typeOffreCB.getValue());
+
+                if (typeContrat == null || typeOffre == null) {
+                    throw new IllegalArgumentException("Type de contrat ou d'offre non valide.");
+                }
+
+                // Création et insertion
+                Offre offre = new Offre(
+                        typeContrat,
+                        typeOffre,
+                        posteTF.getText().trim(),
+                        entrepriseTF.getText().trim(),
+                        localisationTF.getText().trim(),
+                        salaire,
+                        disponibleCB.isSelected(),
+                        imageTF.getText().trim(),
+                        utilisateurTF.getText().trim()
+                );
+
+                // Gérer l'image
+                if (selectedImageFile != null) {
+                    // Ici, vous pouvez ajouter la logique pour sauvegarder l'image
+                    // Par exemple, copier l'image dans un dossier de votre application
+                    // et stocker le chemin relatif dans la base de données
+                    String imagePath = saveImage(selectedImageFile);
+                    offre.setImage(imagePath);
+                }
+
+                offreService.ajouter(offre);
+                showSuccess("Offre ajoutée !", "L'offre a été ajoutée avec succès.");
+                clearInputs();
             }
-
-            double salaire = parseSalaire();
-            if (salaire <= 0) {
-                throw new IllegalArgumentException("Le salaire doit être positif.");
-            }
-
-            // Récupérer les objets à partir du ComboBox
-            TypeContrat typeContrat = mapTypeContrat.get(typeContratCB.getValue());
-            TypeOffre typeOffre = mapTypeOffre.get(typeOffreCB.getValue());
-
-            if (typeContrat == null || typeOffre == null) {
-                throw new IllegalArgumentException("Type de contrat ou d'offre non valide.");
-            }
-
-            // Création et insertion
-            Offre offre = new Offre(
-                    typeContrat,
-                    typeOffre,
-                    posteTF.getText().trim(),
-                    entrepriseTF.getText().trim(),
-                    localisationTF.getText().trim(),
-                    salaire,
-                    disponibleCB.isSelected(),
-                    imageTF.getText().trim(),
-                    utilisateurTF.getText().trim()
-            );
-
-            os.ajouter(offre);
-            showSuccess("Offre ajoutée !", "L'offre a été ajoutée avec succès.");
-
         } catch (SQLException | IllegalArgumentException e) {
             showError("Erreur lors de l'ajout de l'offre", e.getMessage());
         }
     }
+
+    @FXML
+    public void handleImageUpload() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        selectedImageFile = fileChooser.showOpenDialog(imagePreview.getScene().getWindow());
+        if (selectedImageFile != null) {
+            Image image = new Image(selectedImageFile.toURI().toString());
+            imagePreview.setImage(image);
+            imageNameLabel.setText(selectedImageFile.getName());
+        }
+    }
+
+    private String saveImage(File imageFile) {
+        // Créer le dossier images s'il n'existe pas
+        File imagesDir = new File("src/main/resources/images");
+        if (!imagesDir.exists()) {
+            imagesDir.mkdirs();
+        }
+
+        // Générer un nom unique pour l'image
+        String fileName = System.currentTimeMillis() + "_" + imageFile.getName();
+        File destFile = new File(imagesDir, fileName);
+
+        try {
+            // Copier l'image
+            java.nio.file.Files.copy(imageFile.toPath(), destFile.toPath());
+            return "images/" + fileName;
+        } catch (IOException e) {
+            showError("Erreur", "Impossible de sauvegarder l'image : " + e.getMessage());
+            return null;
+        }
+    }
+
+    private boolean validateInputs() {
+        if (posteTF.getText().isEmpty() || entrepriseTF.getText().isEmpty() ||
+            localisationTF.getText().isEmpty() || salaireTF.getText().isEmpty() ||
+            typeContratCB.getValue() == null || typeOffreCB.getValue() == null ||
+            utilisateurTF.getText().isEmpty()) {
+            showError("Erreur", "Veuillez remplir tous les champs obligatoires");
+            return false;
+        }
+        try {
+            Double.parseDouble(salaireTF.getText());
+        } catch (NumberFormatException e) {
+            showError("Erreur", "Le salaire doit être un nombre valide");
+            return false;
+        }
+        return true;
+    }
+
+    private void clearInputs() {
+        posteTF.clear();
+        entrepriseTF.clear();
+        localisationTF.clear();
+        salaireTF.clear();
+        disponibleCB.setSelected(false);
+        typeContratCB.setValue(null);
+        typeOffreCB.setValue(null);
+        utilisateurTF.clear();
+        imagePreview.setImage(null);
+        imageNameLabel.setText("Aucune image sélectionnée");
+        selectedImageFile = null;
+    }
+
     @FXML
     private void handleOffreClick(ActionEvent event) {
         try {
@@ -163,12 +246,6 @@ public class AjouterOffreController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean isFormInvalid() {
-        return typeContratCB.getValue() == null || typeOffreCB.getValue() == null ||
-                posteTF.getText().trim().isEmpty() || entrepriseTF.getText().trim().isEmpty() ||
-                localisationTF.getText().trim().isEmpty() || salaireTF.getText().trim().isEmpty();
     }
 
     private double parseSalaire() {

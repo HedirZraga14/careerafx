@@ -6,63 +6,108 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import services.OffreService;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.geometry.Pos;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.ResourceBundle;
 
-public class AfficherOffreController {
+public class AfficherOffreController implements Initializable {
 
     @FXML
     private ListView<Offre> listView;
 
     @FXML
-    private TextField searchField, posteTF, entrepriseTF, localisationTF, salaireTF, imageTF, utilisateurTF, typeContratTF, typeOffreTF;
-
-    @FXML
-    private CheckBox disponibleCB;
+    private TextField searchField;
 
     private ObservableList<Offre> obs;
     private final OffreService offreService = new OffreService();
 
-    @FXML
-    void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         try {
-            List<Offre> offres = offreService.recuperer();
-            obs = FXCollections.observableArrayList(offres);
-            listView.setItems(obs);
-
-            listView.setCellFactory(param -> new ListCell<Offre>() {
-                @Override
-                protected void updateItem(Offre item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                    } else {
-                        setText(
-                                "Nom du poste: "+ item.getNomposte() + " | " +
-                                        "Entreprise: " + item.getEntreprise() + " | " +
-                                        "Localisation: " + item.getLocalisation() + " | " +
-                                        "Salaire: " + item.getSalaire() + " | " +
-                                        (item.isDisponibilite() ? "Disponible" : "Indisponible") + " | " +
-                                        "Type Offre: " + item.getTypeOffre().getNom() + " | " +
-                                        "Type Contrat: " + item.getTypeContrat().getNom()
-                        );
-                    }
-                }
-            });
-
+            loadOffres();
         } catch (SQLException e) {
             showError("Erreur lors du chargement des offres", e.getMessage());
         }
     }
+
+    private void loadOffres() throws SQLException {
+        List<Offre> offres = offreService.recuperer();
+        obs = FXCollections.observableArrayList(offres);
+        listView.setItems(obs);
+
+        listView.setCellFactory(param -> new ListCell<Offre>() {
+            @Override
+            protected void updateItem(Offre item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    HBox hbox = new HBox(10);
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+
+                    // Nom du poste en gras
+                    Label nomPosteLabel = new Label("Nom du poste: " + item.getNomposte());
+                    nomPosteLabel.setStyle("-fx-font-weight: bold;");
+
+                    // Autres infos
+                    Label entrepriseLabel = new Label(" | Entreprise: " + item.getEntreprise() + " | Localisation: ");
+
+                    FontAwesomeIconView locationIcon = new FontAwesomeIconView(FontAwesomeIcon.MAP_MARKER);
+                    locationIcon.setGlyphSize(17);
+                    locationIcon.setFill(Color.RED);
+                    locationIcon.setStyle("-fx-cursor: hand; -fx-font-family: FontAwesome;");
+
+                    Label locationLabel = new Label(item.getLocalisation());
+                    locationLabel.setStyle("-fx-text-fill: #1976D2;");
+
+                    locationIcon.setOnMouseClicked(e -> {
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MapView.fxml"));
+                            Parent root = loader.load();
+                            MapViewController controller = loader.getController();
+                            controller.setLocation(item.getLocalisation());
+                            Stage stage = new Stage();
+                            stage.setTitle("Localisation de l'offre");
+                            stage.setScene(new Scene(root));
+                            stage.show();
+                        } catch (IOException ex) {
+                            showError("Erreur carte", "Impossible d'ouvrir la carte : " + ex.getMessage());
+                        }
+                    });
+
+                    Label remainingInfo = new Label(
+                            " | Salaire: " + item.getSalaire() + " | " +
+                                    (item.isDisponibilite() ? "Disponible" : "Indisponible") + " | " +
+                                    "Type Offre: " + item.getTypeOffre().getNom() + " | " +
+                                    "Type Contrat: " + item.getTypeContrat().getNom()
+                    );
+
+                    hbox.getChildren().addAll(nomPosteLabel, entrepriseLabel, locationIcon, locationLabel, remainingInfo);
+                    setGraphic(hbox);
+                    setText(null);
+                }
+            }
+        });
+    }
+
+
 
     @FXML
     public void supprimerOffre(ActionEvent actionEvent) {
@@ -96,6 +141,19 @@ public class AfficherOffreController {
             showError("Erreur lors de la recherche", e.getMessage());
         }
     }
+    @FXML
+    private void handleOffreClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une Offre");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void ajouterOffre(ActionEvent actionEvent) {
@@ -114,51 +172,13 @@ public class AfficherOffreController {
 
     @FXML
     private void startQuiz(ActionEvent actionEvent) {
-        try {
-            // Charger la nouvelle scène (Quiz.fxml)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Quiz.fxml"));
-            Parent root = loader.load();
-
-            // Obtenir le stage actuel
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            // Changer de scène
-            stage.setScene(new Scene(root));
-
-            // Afficher la nouvelle scène
-            stage.show();
-
-            System.out.println("Quiz démarré!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erreur lors du chargement de la scène Quiz.fxml");
-        }
+        changerDeScene("/Quiz.fxml", actionEvent);
     }
+
     @FXML
     private void chatbot(ActionEvent actionEvent) {
-        try {
-            // Charger la nouvelle scène (Quiz.fxml)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chatbot.fxml"));
-            Parent root = loader.load();
-
-            // Obtenir le stage actuel
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            // Changer de scène
-            stage.setScene(new Scene(root));
-
-            // Afficher la nouvelle scène
-            stage.show();
-
-            System.out.println("chatbott!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erreur lors du chargement de la scène chatbot.fxml");
-        }
+        changerDeScene("/chatbot.fxml", actionEvent);
     }
-
-
-
 
     @FXML
     private void modifierOffre(ActionEvent event) {
@@ -181,7 +201,7 @@ public class AfficherOffreController {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            showError("Erreur lors de l'ouverture", e.getMessage());
         }
     }
 
@@ -193,28 +213,16 @@ public class AfficherOffreController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            showError("Erreur", "Impossible de charger la nouvelle scène : " + e.getMessage());
         }
     }
 
-    private void clearForm() {
-        posteTF.clear();
-        entrepriseTF.clear();
-        localisationTF.clear();
-        salaireTF.clear();
-        disponibleCB.setSelected(false);
-        imageTF.clear();
-        utilisateurTF.clear();
-        typeContratTF.clear();
-        typeOffreTF.clear();
-    }
-
     private void showError(String title, String message) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle(title);
-        a.setHeaderText(null);
-        a.setContentText(message);
-        a.show();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
@@ -224,32 +232,9 @@ public class AfficherOffreController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    @FXML
-    private void handleOffreClick(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter une Offre");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
     @FXML
     void afficherStatistiques(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Statistiques.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setTitle("Statistiques des Offres et Candidatures");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changerDeScene("/Statistiques.fxml", event);
     }
-
 }

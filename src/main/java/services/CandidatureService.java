@@ -52,10 +52,9 @@ public class CandidatureService {
                 c.setDateSoumission(ts.toLocalDateTime());
             }
 
-
             c.setUtilisateur(rs.getString("utilisateur"));
             c.setCv(rs.getString("cv"));
-            c.setLettreMotivation(rs.getString("lettre_motivation"));
+            c.setLettreMotivation(rs.getString("lettremotivation"));
             candidatures.add(c);
         }
 

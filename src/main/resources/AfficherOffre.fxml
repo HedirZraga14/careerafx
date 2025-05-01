@@ -29,7 +29,7 @@
         </padding>
 
         <Label text="CareEra"
-               style="-fx-font-size: 28px; -fx-text-fill: #4338ca; -fx-font-weight: 800; -fx-font-family: 'Segoe UI', 'Roboto', sans-serif;" />
+               style="-fx-font-size: 28px; -fx-text-fill: #4338ca; -fx-font-weight: 800;" />
 
         <Region HBox.hgrow="ALWAYS" />
 
@@ -48,8 +48,8 @@
 
     <children>
         <VBox spacing="20" alignment="TOP_CENTER"
-              layoutY="20.0" prefWidth="900.0"
-              AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="50.0">
+              layoutY="70.0" prefWidth="900.0"
+              AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="70.0">
 
             <Text text="Liste des offres">
                 <font>
@@ -62,15 +62,13 @@
 
             <!-- Barre de recherche -->
             <HBox spacing="15" alignment="CENTER">
-                <children>
-                    <TextField fx:id="searchField"
-                               promptText="Rechercher une offre..."
-                               maxWidth="500"
-                               style="-fx-font-size: 16px;"/>
-                    <Button text="Rechercher"
-                            onAction="#rechercherOffre"
-                            style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px;"/>
-                </children>
+                <TextField fx:id="searchField"
+                           promptText="Rechercher une offre..."
+                           maxWidth="700"
+                           style="-fx-font-size: 16px;"/>
+                <Button text="Rechercher"
+                        onAction="#rechercherOffre"
+                        style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px;"/>
             </HBox>
 
             <!-- Afficher Candidature Button -->
@@ -83,36 +81,30 @@
             <!-- Liste des offres -->
             <ListView fx:id="listView"
                       prefHeight="400.0"
-                      maxWidth="700.0"
+                      maxWidth="1500.0"
                       style="-fx-font-size: 16px;"/>
 
             <!-- Boutons d'action -->
-            <HBox spacing="20" alignment="CENTER" prefWidth="700.0">
-                <children>
-                    <Button fx:id="deleteBtn" text="Supprimer"
-                            onAction="#supprimerOffre"
-                            style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px;"/>
-                    <Button fx:id="ajouterOffreBtn" text="Retour"
-                            style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-size: 16px;"
-                            onAction="#ajouterOffre"/>
-                    <Button text="Modifier"
-                            fx:id="modifierButton"
-                            onAction="#modifierOffre"
-                            style="-fx-background-color: linear-gradient(to right, #6366f1, #4f46e5);
-                                   -fx-text-fill: white;
-                                   -fx-font-size: 16px;"/>
-                </children>
+            <HBox spacing="20" alignment="CENTER" prefWidth="1400.0">
+                <Button fx:id="deleteBtn" text="Supprimer"
+                        onAction="#supprimerOffre"
+                        style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px;"/>
+                <Button fx:id="ajouterOffreBtn" text="Retour"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-size: 16px;"
+                        onAction="#ajouterOffre"/>
+                <Button fx:id="modifierButton" text="Modifier"
+                        onAction="#modifierOffre"
+                        style="-fx-background-color: linear-gradient(to right, #6366f1, #4f46e5);
+                               -fx-text-fill: white;
+                               -fx-font-size: 16px;"/>
             </HBox>
 
             <!-- Statistiques Button -->
             <Button fx:id="statistiquesBtn"
                     text="📊 Statistiques"
                     onAction="#afficherStatistiques"
-                    layoutX="20.0"
-                    layoutY="820.0"
-                    style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;
+                    style="-fx-background-color: white; -fx-text-fill: black; -fx-font-size: 16px; -fx-font-weight: bold;
                            -fx-padding: 10 20; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);"/>
-
         </VBox>
     </children>
 </AnchorPane>

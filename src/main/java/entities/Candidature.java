@@ -16,7 +16,7 @@ public class Candidature {
     private LocalDateTime datesoumission;
     private String utilisateur;
     private String cv;
-    private String lettreMotivation;
+    private String lettremotivation;
     private Offre position;
 
     // Default constructor
@@ -33,7 +33,7 @@ public class Candidature {
         this.datesoumission = dateSoumission;
         this.utilisateur = utilisateur;
         this.cv = cv;
-        this.lettreMotivation = lettreMotivation;
+        this.lettremotivation = lettreMotivation;
     }
 
     // Complete constructor (statut is provided)
@@ -45,7 +45,7 @@ public class Candidature {
         this.datesoumission = datesoumission;
         this.utilisateur = utilisateur;
         this.cv = cv;
-        this.lettreMotivation = lettreMotivation;
+        this.lettremotivation = lettremotivation;
     }
 
     // Getters and Setters
@@ -98,11 +98,11 @@ public class Candidature {
     }
 
     public String getLettreMotivation() {
-        return lettreMotivation;
+        return lettremotivation;
     }
 
     public void setLettreMotivation(String lettreMotivation) {
-        this.lettreMotivation = lettreMotivation;
+        this.lettremotivation = lettreMotivation;
     }
 
 
@@ -125,7 +125,7 @@ public class Candidature {
                 ", dateSoumission=" + datesoumission +
                 ", utilisateur='" + utilisateur + '\'' +
                 ", cv='" + cv + '\'' +
-                ", lettreMotivation='" + lettreMotivation + '\'' +
+                ", lettreMotivation='" + lettremotivation + '\'' +
                 '}';
     }
 }

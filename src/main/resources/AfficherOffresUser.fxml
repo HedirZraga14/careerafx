@@ -5,40 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<AnchorPane
-        prefWidth="1500.0" prefHeight="900.0"
-        style="-fx-background-color: linear-gradient(to bottom right, #f8fafc, #e0e7ff);"
-        xmlns="http://javafx.com/javafx/19"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="controllers.AfficherOffreController">
-
-    <!-- Menu en haut -->
-    <HBox spacing="0.0"
-          alignment="CENTER_LEFT"
-          style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 3); -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1px 0;" prefWidth="1550">
-        <padding>
-            <Insets top="15" right="40" bottom="15" left="40"/>
-        </padding>
-
-        <Label text="CareEra"
-               style="-fx-font-size: 28px; -fx-text-fill: #4338ca; -fx-font-weight: 800; -fx-font-family: 'Segoe UI', 'Roboto', sans-serif;" />
-
-        <Region HBox.hgrow="ALWAYS" />
-
-        <HBox spacing="0">
-            <Button fx:id="offreButton" text="Offres d'emploi" onAction="#handleOffreClick"
-                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
-            <Button text="Freelance"
-                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
-            <Button text="Événements"
-                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20; -fx-border-color: #e2e8f0; -fx-border-width: 0 1px 0 0;" />
-            <Button text="Forum et Discussion"
-                    style="-fx-background-color: transparent; -fx-text-fill: #1e3a8a; -fx-font-size: 14px; -fx-font-weight: 700; -fx-padding: 8 20;" />
-        </HBox>
-    </HBox>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AfficherOffreController">
 
     <!-- Contenu principal -->
     <VBox spacing="15" alignment="TOP_CENTER" maxWidth="1000.0"
@@ -65,23 +35,24 @@
                         onAction="#ajouterCandidature"/>
             </HBox>
 
-            <ListView fx:id="listView" prefHeight="400.0" maxWidth="800.0"
-                      style="-fx-font-size: 18px;"/>
+            <ListView fx:id="listView" prefHeight="400.0" maxWidth="1500.0"
+                      style="-fx-font-size: 18px;" />
 
         </children>
     </VBox>
 
-    <!-- Aligning the last two buttons in a single line -->
     <HBox spacing="20" alignment="CENTER" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <Button fx:id="quizButton" onAction="#startQuiz"
-                style="-fx-background-color: pink; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 15px 25px; -fx-border-radius: 20px; -fx-pref-width: 150px;">
+                style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 15px 25px; -fx-border-color: pink; -fx-border-width: 2px; -fx-border-radius: 20px; -fx-pref-width: 150px;">
             🎓 Quiz
         </Button>
 
         <Button fx:id="chatbotButton" onAction="#chatbot"
-                style="-fx-background-color: blue; -fx-text-fill: black; -fx-font-size: 16px; -fx-padding: 15px 25px; -fx-border-radius: 20px; -fx-pref-width: 150px;">
+                style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 15px 25px; -fx-border-color: green; -fx-border-width: 2px; -fx-border-radius: 20px; -fx-pref-width: 150px;">
             🤖 Chatbot
         </Button>
     </HBox>
+
+
 
 </AnchorPane>

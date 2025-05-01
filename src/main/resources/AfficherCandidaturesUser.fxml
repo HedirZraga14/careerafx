@@ -55,7 +55,7 @@
 
         <!-- List of Candidatures -->
         <ListView fx:id="listView"
-                  prefHeight="400.0" prefWidth="1000.0"
+                  prefHeight="400.0" prefWidth="300.0"
                   style="-fx-border-color: #ddd; -fx-border-width: 1;"/>
 
         <!-- Action Buttons centered -->

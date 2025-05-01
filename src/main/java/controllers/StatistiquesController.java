@@ -1,3 +1,4 @@
+
 package controllers;
 
 import entities.Candidature;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class StatistiquesController {
 
     @FXML
-    private HBox chartContainer; // Correspond maintenant au HBox dans le FXML
+    private HBox chartContainer;
 
     private final CandidatureService candidatureService = new CandidatureService();
     private final OffreService offreService = new OffreService();
@@ -30,7 +31,7 @@ public class StatistiquesController {
     public void setScore(int score, int total) {
         this.score = score;
         this.total = total;
-        afficherStatistiques(); // Ajoute le graphe du score
+        afficherStatistiques();
     }
 
     private void afficherStatistiques() {

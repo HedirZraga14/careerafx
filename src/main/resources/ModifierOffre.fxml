@@ -44,7 +44,7 @@
 
 
                 <!-- Titre -->
-                <Text text="Ajouter Offre">
+                <Text text="Modifier Offre">
                     <font>
                         <Font name="System Bold" size="30"/>
                     </font>
