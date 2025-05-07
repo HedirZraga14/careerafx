@@ -1,9 +1,6 @@
 package test;
 
-import entities.Personne;
 import services.OffreService;
-import services.PersonneService;
-import utils.MyDatabase;
 
 import java.sql.SQLException;
 
