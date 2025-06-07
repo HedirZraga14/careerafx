@@ -136,45 +136,29 @@ class __TwigTemplate_883f30003b8e5119c23b4601550069bf extends Template
             yield ((CoreExtension::getAttribute($this->env, $this->source, ($context["tabprofile"] ?? null), "societe", [], "any", true, true, false, 22)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["tabprofile"]) || array_key_exists("tabprofile", $context) ? $context["tabprofile"] : (function () { throw new RuntimeError('Variable "tabprofile" does not exist.', 22, $this->source); })()), "societe", [], "any", false, false, false, 22), "html", null, true)) : ("Société indisponible"));
             yield "</p>
 
-                    ";
-            // line 24
-            if ((CoreExtension::getAttribute($this->env, $this->source, ($context["tabprofile"] ?? null), "cv", [], "any", true, true, false, 24) &&  !(null === CoreExtension::getAttribute($this->env, $this->source, (isset($context["tabprofile"]) || array_key_exists("tabprofile", $context) ? $context["tabprofile"] : (function () { throw new RuntimeError('Variable "tabprofile" does not exist.', 24, $this->source); })()), "cv", [], "any", false, false, false, 24)))) {
-                // line 25
-                yield "                        <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/cv/" . CoreExtension::getAttribute($this->env, $this->source, (isset($context["tabprofile"]) || array_key_exists("tabprofile", $context) ? $context["tabprofile"] : (function () { throw new RuntimeError('Variable "tabprofile" does not exist.', 25, $this->source); })()), "cv", [], "any", false, false, false, 25))), "html", null, true);
-                yield "\" class=\"btn btn-outline-primary mt-3\" download>
-                            Télécharger CV
-                        </a>
-                    ";
-            } else {
-                // line 29
-                yield "                        <p>CV non disponible</p>
-                    ";
-            }
-            // line 31
-            yield "
+            
                     <!-- Bouton Modifier -->
                     <a href=\"";
-            // line 33
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_updatemoderateur", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["tabprofile"]) || array_key_exists("tabprofile", $context) ? $context["tabprofile"] : (function () { throw new RuntimeError('Variable "tabprofile" does not exist.', 33, $this->source); })()), "id", [], "any", false, false, false, 33)]), "html", null, true);
+            // line 26
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_updatemoderateur", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["tabprofile"]) || array_key_exists("tabprofile", $context) ? $context["tabprofile"] : (function () { throw new RuntimeError('Variable "tabprofile" does not exist.', 26, $this->source); })()), "id", [], "any", false, false, false, 26)]), "html", null, true);
             yield "\" class=\"btn btn-success mt-3\">
                         Modifier
                     </a>
 
                     <!-- Bouton Supprimer -->
                     <a href=\"";
-            // line 38
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_deletemoderateur", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["tabprofile"]) || array_key_exists("tabprofile", $context) ? $context["tabprofile"] : (function () { throw new RuntimeError('Variable "tabprofile" does not exist.', 38, $this->source); })()), "id", [], "any", false, false, false, 38)]), "html", null, true);
+            // line 31
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_deletemoderateur", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["tabprofile"]) || array_key_exists("tabprofile", $context) ? $context["tabprofile"] : (function () { throw new RuntimeError('Variable "tabprofile" does not exist.', 31, $this->source); })()), "id", [], "any", false, false, false, 31)]), "html", null, true);
             yield "\" class=\"btn btn-danger mt-3\" onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer ce profil ?')\">
                         Supprimer
                     </a>
                 ";
         } else {
-            // line 42
+            // line 35
             yield "                    <p>Aucun profil trouvé.</p>
                 ";
         }
-        // line 44
+        // line 37
         yield "            </div>
         </div>
     </div>
@@ -210,7 +194,7 @@ class __TwigTemplate_883f30003b8e5119c23b4601550069bf extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  178 => 44,  174 => 42,  167 => 38,  159 => 33,  155 => 31,  151 => 29,  143 => 25,  141 => 24,  136 => 22,  132 => 21,  128 => 20,  124 => 19,  119 => 17,  115 => 16,  112 => 15,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  162 => 37,  158 => 35,  151 => 31,  143 => 26,  136 => 22,  132 => 21,  128 => 20,  124 => 19,  119 => 17,  115 => 16,  112 => 15,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -238,14 +222,7 @@ class __TwigTemplate_883f30003b8e5119c23b4601550069bf extends Template
                     <p><strong>Domaine :</strong> {{ tabprofile.domaine is defined ? tabprofile.domaine : 'Domaine indisponible' }}</p>
                     <p><strong>Société :</strong> {{ tabprofile.societe is defined ? tabprofile.societe : 'Société indisponible' }}</p>
 
-                    {% if tabprofile.cv is defined and tabprofile.cv is not null %}
-                        <a href=\"{{ asset('uploads/cv/' ~ tabprofile.cv) }}\" class=\"btn btn-outline-primary mt-3\" download>
-                            Télécharger CV
-                        </a>
-                    {% else %}
-                        <p>CV non disponible</p>
-                    {% endif %}
-
+            
                     <!-- Bouton Modifier -->
                     <a href=\"{{ path('app_updatemoderateur', {'id': tabprofile.id}) }}\" class=\"btn btn-success mt-3\">
                         Modifier

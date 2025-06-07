@@ -19,6 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ModerateurController extends AbstractController
 { 
+    
     #[Route('/profilemoderateur', name: 'app_profilemoderateur')]
     public function profile(ManagerRegistry $doctrine, Security $security, UserRepository $userRepository): Response
     {
@@ -112,17 +113,7 @@ public function updatemoderateur($id, ManagerRegistry $doctrine, Request $reques
         $moderateur->setSexe($request->request->get('sexe'));
 
 
-        // Gestion du fichier CV
-        //$cvFile = $request->files->get('cv');
-        //if ($cvFile) {
-          //  $newFilename = uniqid() . '.' . $cvFile->guessExtension();
-           // try {
-             //   $cvFile->move($this->getParameter('images_directory'), $newFilename);
-               // $moderateur->setCv($newFilename);
-           // } catch (FileException $e) {
-            //    $this->addFlash('error', 'Impossible de télécharger le CV.');
-           // }
-       // }
+        
 
         $em->persist($moderateur);
         $em->flush();

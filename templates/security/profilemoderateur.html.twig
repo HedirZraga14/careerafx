@@ -21,14 +21,7 @@
                     <p><strong>Domaine :</strong> {{ tabprofile.domaine is defined ? tabprofile.domaine : 'Domaine indisponible' }}</p>
                     <p><strong>Société :</strong> {{ tabprofile.societe is defined ? tabprofile.societe : 'Société indisponible' }}</p>
 
-                    {% if tabprofile.cv is defined and tabprofile.cv is not null %}
-                        <a href="{{ asset('uploads/cv/' ~ tabprofile.cv) }}" class="btn btn-outline-primary mt-3" download>
-                            Télécharger CV
-                        </a>
-                    {% else %}
-                        <p>CV non disponible</p>
-                    {% endif %}
-
+            
                     <!-- Bouton Modifier -->
                     <a href="{{ path('app_updatemoderateur', {'id': tabprofile.id}) }}" class="btn btn-success mt-3">
                         Modifier

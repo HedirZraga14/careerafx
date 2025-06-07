@@ -43,7 +43,7 @@ final class CandidatureController extends AbstractController
         // L'utilisateur est valide à ce point et peut être utilisé si nécessaire
     }
 
-    #[Route('/candidature', name: 'app_candidature')]
+    #[Route('/candidature', name: 'app_candidatureoffre')]
     public function index(CandidatureRepository $rep, Security $security): Response
     {
         $user = $security->getUser();

@@ -44,16 +44,9 @@ final class OffremodController extends AbstractController
     #[Route('/offremod', name: 'app_offremod')]
     public function index(Security $security, OffreRepository $offreRepository): Response
     {
-        // Retrieve the current authenticated user
-        $user = $security->getUser();
-
-        // Check if the user is authenticated and is an instance of User
-        if (!$user instanceof User) {
-            return $this->redirectToRoute('app_login');  // Redirect to login if the user is not authenticated
-        }
 
         // Retrieve offers associated with the current user
-        $offres = $offreRepository->findBy(['Utilisateur' => $user->getPrenom()]);
+        $offres = $offreRepository->findAll();
 
         // If no offers are found, you can either show a default message or handle it as needed
         if (empty($offres)) {
@@ -62,7 +55,6 @@ final class OffremodController extends AbstractController
 
         return $this->render('offre/offremod.html.twig', [
             'taboffre' => $offres,
-            'user' => $user,
         ]);
     }
 

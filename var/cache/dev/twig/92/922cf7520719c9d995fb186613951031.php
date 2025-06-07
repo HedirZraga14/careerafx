@@ -73,7 +73,7 @@ class __TwigTemplate_5e483597cbd7598b39e5bc72d391cc43 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
-        yield "Listes des Candidatures";
+        yield "Liste des Candidatures";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -97,39 +97,37 @@ class __TwigTemplate_5e483597cbd7598b39e5bc72d391cc43 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "<div class=\"d-flex justify-content-start mb-2 mt-5  \">
-   <a href=\"";
+        yield "<div class=\"d-flex justify-content-start mb-2 mt-5\">
+    <a href=\"";
         // line 7
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_offre");
         yield "\" class=\"btn btn-success btn-sm\">
-      <i class=\"fa fa-arrow-left\"></i> Retour
-   </a>
+        <i class=\"fa fa-arrow-left\"></i> Retour
+    </a>
 </div>
-<h1 class=\"mb-3 text-center\">Listes des Candidatures</h1>
+
+<h1 class=\"mb-3 text-center\">Liste des Candidatures</h1>
 
 <div class=\"container\">
-   
-    <!-- Tableau des candidatures -->
-    <table class=\"table table-bordered\"> 
+    <table class=\"table table-bordered\">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>#</th>
                 <th>Nom</th>
-                <th>Poste/Stage</th>
+                <th>Poste</th>
                 <th>Entreprise</th>
                 <th>Date de Soumission</th>
                 <th>CV</th>
                 <th>Lettre de Motivation</th>
                 <th>Statut</th>
                 <th>Actions</th>
-                
             </tr>
         </thead>
         <tbody>
             ";
-        // line 32
+        // line 30
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["tabcandidature"]) || array_key_exists("tabcandidature", $context) ? $context["tabcandidature"] : (function () { throw new RuntimeError('Variable "tabcandidature" does not exist.', 32, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["tabcandidature"]) || array_key_exists("tabcandidature", $context) ? $context["tabcandidature"] : (function () { throw new RuntimeError('Variable "tabcandidature" does not exist.', 30, $this->source); })()));
         $context['_iterated'] = false;
         $context['loop'] = [
           'parent' => $context['_parent'],
@@ -145,121 +143,123 @@ class __TwigTemplate_5e483597cbd7598b39e5bc72d391cc43 extends Template
             $context['loop']['last'] = 1 === $length;
         }
         foreach ($context['_seq'] as $context["_key"] => $context["candidature"]) {
-            // line 33
+            // line 31
             yield "                <tr>
                     <td>";
+            // line 32
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 32), "html", null, true);
+            yield "</td>
+                    <td>";
+            // line 33
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "utilisateur", [], "any", false, false, false, 33), "html", null, true);
+            yield "</td>
+                    <td>";
             // line 34
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 34), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "offre", [], "any", false, false, false, 34), "nomposte", [], "any", false, false, false, 34), "html", null, true);
             yield "</td>
                     <td>";
             // line 35
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "utilisateur", [], "any", false, false, false, 35), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "offre", [], "any", false, false, false, 35), "entreprise", [], "any", false, false, false, 35), "html", null, true);
             yield "</td>
                     <td>";
             // line 36
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "offre", [], "any", false, false, false, 36), "nomposte", [], "any", false, false, false, 36), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "datesoumission", [], "any", false, false, false, 36), "d/m/Y"), "html", null, true);
             yield "</td>
-                    <td>";
-            // line 37
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "offre", [], "any", false, false, false, 37), "entreprise", [], "any", false, false, false, 37), "html", null, true);
-            yield "</td>
-                    <td>";
+                    <td>
+                        ";
             // line 38
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "datesoumission", [], "any", false, false, false, 38), "d/m/Y"), "html", null, true);
-            yield "</td>
-                    <td>
-                        <a href=\"";
-            // line 40
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/cv/" . CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "cv", [], "any", false, false, false, 40))), "html", null, true);
-            yield "\" target=\"_blank\" class=\"btn btn btn-sm\">Voir CV</a>
-                    </td>
-                    <td>
-                        <button type=\"button\" class=\"btn btn btn-sm\" data-bs-toggle=\"modal\" data-bs-target=\"#motivationModal";
+            if (CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "cv", [], "any", false, false, false, 38)) {
+                // line 39
+                yield "                            <a href=\"";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/cv/" . CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "cv", [], "any", false, false, false, 39))), "html", null, true);
+                yield "\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\">Voir CV</a>
+                        ";
+            } else {
+                // line 41
+                yield "                            <span class=\"text-muted\">Non disponible</span>
+                        ";
+            }
             // line 43
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 43), "html", null, true);
+            yield "                    </td>
+                    <td>
+                        <button class=\"btn btn-sm btn-outline-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#motivationModal";
+            // line 45
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 45), "html", null, true);
             yield "\">Voir</button>
                     </td>
                     <td>
                         ";
-            // line 46
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "statut", [], "any", false, false, false, 46) == "acceptée")) {
-                // line 47
+            // line 48
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "statut", [], "any", false, false, false, 48) == "acceptée")) {
+                // line 49
                 yield "                            <span class=\"badge bg-success\">Acceptée</span>
                         ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 48
-$context["candidature"], "statut", [], "any", false, false, false, 48) == "rejetée")) {
-                // line 49
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 50
+$context["candidature"], "statut", [], "any", false, false, false, 50) == "rejetée")) {
+                // line 51
                 yield "                            <span class=\"badge bg-danger\">Rejetée</span>
                         ";
             } else {
-                // line 51
+                // line 53
                 yield "                            <span class=\"badge bg-warning text-dark\">En attente</span>
                         ";
             }
-            // line 53
-            yield "                    </td>
-                    <td>
-                        <a href=\"";
             // line 55
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_deletecandidature", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 55)]), "html", null, true);
-            yield "\" class=\"btn btn-outline-danger\">Supprimer</a>
-                             ";
-            // line 56
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "statut", [], "any", false, false, false, 56) == "acceptée")) {
-                // line 57
-                yield "                                <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_export_pdf", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 57)]), "html", null, true);
-                yield "\" class=\"btn btn-primary\">Exporter en PDF</a> 
-                                
-                            ";
-            } else {
+            yield "                    </td>
+                    <td class=\"d-flex gap-1 flex-wrap\">
+                        <a href=\"";
+            // line 57
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_deletecandidature", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 57)]), "html", null, true);
+            yield "\" class=\"btn btn-sm btn-outline-danger\">Supprimer</a>
+
+                        ";
+            // line 59
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "statut", [], "any", false, false, false, 59) == "acceptée")) {
                 // line 60
-                yield "                                <span class=\"badge  \">none</span>
-                            ";
+                yield "                            <a href=\"";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_export_pdf", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 60)]), "html", null, true);
+                yield "\" class=\"btn btn-sm btn-primary\">Exporter PDF</a>
+                        ";
             }
-            // line 61
-            yield " 
-                            ";
             // line 62
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "statut", [], "any", false, false, false, 62) == "en_attente")) {
-                // line 63
-                yield "                                <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_updatecandidature", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 63)]), "html", null, true);
-                yield "\" class=\"btn btn-outline-warning\">Modifier</a>
-                            ";
-            } else {
-                // line 65
-                yield "                                <span class=\"badge  \">none</span>
-                            ";
+            yield "
+                        ";
+            // line 63
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "statut", [], "any", false, false, false, 63) == "en_attente")) {
+                // line 64
+                yield "                            <a href=\"";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_updatecandidature", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 64)]), "html", null, true);
+                yield "\" class=\"btn btn-sm btn-outline-warning\">Modifier</a>
+                        ";
             }
             // line 66
-            yield " 
-                
-                          
-                            
-                    </td>   
+            yield "                    </td>
                 </tr>
 
-                <!-- Modal pour la lettre de motivation -->
+                <!-- Modal Lettre de Motivation -->
                 <div class=\"modal fade\" id=\"motivationModal";
-            // line 74
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 74), "html", null, true);
-            yield "\" tabindex=\"-1\" aria-labelledby=\"motivationModalLabel\" aria-hidden=\"true\">
-                   <div class=\"modal-dialog modal-dialog-centered\">
+            // line 70
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 70), "html", null, true);
+            yield "\" tabindex=\"-1\" aria-labelledby=\"motivationModalLabel";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 70), "html", null, true);
+            yield "\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog modal-dialog-centered\">
                         <div class=\"modal-content\">
                             <div class=\"modal-header\">
-                                <h5 class=\"modal-title\" id=\"motivationModalLabel\">Lettre de Motivation</h5>
-                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+                                <h5 class=\"modal-title\" id=\"motivationModalLabel";
+            // line 74
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "id", [], "any", false, false, false, 74), "html", null, true);
+            yield "\">Lettre de Motivation</h5>
+                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Fermer\"></button>
                             </div>
                             <div class=\"modal-body\">
-                                ";
-            // line 82
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "lettremotivation", [], "any", false, false, false, 82), "html", null, true);
-            yield "
+                                <p>";
+            // line 78
+            yield Twig\Extension\CoreExtension::nl2br($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["candidature"], "lettremotivation", [], "any", false, false, false, 78), "html", null, true));
+            yield "</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
             ";
             $context['_iterated'] = true;
@@ -272,22 +272,21 @@ $context["candidature"], "statut", [], "any", false, false, false, 48) == "rejet
                 $context['loop']['last'] = 0 === $context['loop']['revindex0'];
             }
         }
-        // line 88
+        // line 83
         if (!$context['_iterated']) {
-            // line 89
+            // line 84
             yield "                <tr>
-                    <td colspan=\"8\" class=\"text-center\">Aucune candidature trouvée.</td>
+                    <td colspan=\"9\" class=\"text-center text-muted\">Aucune candidature trouvée.</td>
                 </tr>
             ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['candidature'], $context['_parent'], $context['_iterated'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 93
+        // line 88
         yield "        </tbody>
     </table>
 </div>
-
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -319,39 +318,37 @@ $context["candidature"], "statut", [], "any", false, false, false, 48) == "rejet
      */
     public function getDebugInfo(): array
     {
-        return array (  287 => 93,  278 => 89,  276 => 88,  257 => 82,  246 => 74,  236 => 66,  232 => 65,  226 => 63,  224 => 62,  221 => 61,  217 => 60,  210 => 57,  208 => 56,  204 => 55,  200 => 53,  196 => 51,  192 => 49,  190 => 48,  187 => 47,  185 => 46,  179 => 43,  173 => 40,  168 => 38,  164 => 37,  160 => 36,  156 => 35,  152 => 34,  149 => 33,  131 => 32,  103 => 7,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  287 => 88,  278 => 84,  276 => 83,  258 => 78,  251 => 74,  242 => 70,  236 => 66,  230 => 64,  228 => 63,  225 => 62,  219 => 60,  217 => 59,  212 => 57,  208 => 55,  204 => 53,  200 => 51,  198 => 50,  195 => 49,  193 => 48,  187 => 45,  183 => 43,  179 => 41,  173 => 39,  171 => 38,  166 => 36,  162 => 35,  158 => 34,  154 => 33,  150 => 32,  147 => 31,  129 => 30,  103 => 7,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
     {
         return new Source("{% extends 'base.html.twig' %}
 
-{% block title %}Listes des Candidatures{% endblock %}
+{% block title %}Liste des Candidatures{% endblock %}
 
 {% block body %}
-<div class=\"d-flex justify-content-start mb-2 mt-5  \">
-   <a href=\"{{ path('app_offre') }}\" class=\"btn btn-success btn-sm\">
-      <i class=\"fa fa-arrow-left\"></i> Retour
-   </a>
+<div class=\"d-flex justify-content-start mb-2 mt-5\">
+    <a href=\"{{ path('app_offre') }}\" class=\"btn btn-success btn-sm\">
+        <i class=\"fa fa-arrow-left\"></i> Retour
+    </a>
 </div>
-<h1 class=\"mb-3 text-center\">Listes des Candidatures</h1>
+
+<h1 class=\"mb-3 text-center\">Liste des Candidatures</h1>
 
 <div class=\"container\">
-   
-    <!-- Tableau des candidatures -->
-    <table class=\"table table-bordered\"> 
+    <table class=\"table table-bordered\">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>#</th>
                 <th>Nom</th>
-                <th>Poste/Stage</th>
+                <th>Poste</th>
                 <th>Entreprise</th>
                 <th>Date de Soumission</th>
                 <th>CV</th>
                 <th>Lettre de Motivation</th>
                 <th>Statut</th>
                 <th>Actions</th>
-                
             </tr>
         </thead>
         <tbody>
@@ -363,10 +360,14 @@ $context["candidature"], "statut", [], "any", false, false, false, 48) == "rejet
                     <td>{{ candidature.offre.entreprise }}</td>
                     <td>{{ candidature.datesoumission|date('d/m/Y') }}</td>
                     <td>
-                        <a href=\"{{ asset('uploads/cv/' ~ candidature.cv) }}\" target=\"_blank\" class=\"btn btn btn-sm\">Voir CV</a>
+                        {% if candidature.cv %}
+                            <a href=\"{{ asset('uploads/cv/' ~ candidature.cv) }}\" target=\"_blank\" class=\"btn btn-sm btn-outline-secondary\">Voir CV</a>
+                        {% else %}
+                            <span class=\"text-muted\">Non disponible</span>
+                        {% endif %}
                     </td>
                     <td>
-                        <button type=\"button\" class=\"btn btn btn-sm\" data-bs-toggle=\"modal\" data-bs-target=\"#motivationModal{{ candidature.id }}\">Voir</button>
+                        <button class=\"btn btn-sm btn-outline-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#motivationModal{{ candidature.id }}\">Voir</button>
                     </td>
                     <td>
                         {% if candidature.statut == 'acceptée' %}
@@ -377,49 +378,41 @@ $context["candidature"], "statut", [], "any", false, false, false, 48) == "rejet
                             <span class=\"badge bg-warning text-dark\">En attente</span>
                         {% endif %}
                     </td>
-                    <td>
-                        <a href=\"{{ path('app_deletecandidature', {'id': candidature.id}) }}\" class=\"btn btn-outline-danger\">Supprimer</a>
-                             {% if candidature.statut == 'acceptée' %}
-                                <a href=\"{{ path('app_export_pdf', {'id': candidature.id}) }}\" class=\"btn btn-primary\">Exporter en PDF</a> 
-                                
-                            {% else %}
-                                <span class=\"badge  \">none</span>
-                            {% endif %} 
-                            {% if candidature.statut == 'en_attente' %}
-                                <a href=\"{{ path('app_updatecandidature', {'id': candidature.id}) }}\" class=\"btn btn-outline-warning\">Modifier</a>
-                            {% else %}
-                                <span class=\"badge  \">none</span>
-                            {% endif %} 
-                
-                          
-                            
-                    </td>   
+                    <td class=\"d-flex gap-1 flex-wrap\">
+                        <a href=\"{{ path('app_deletecandidature', {'id': candidature.id}) }}\" class=\"btn btn-sm btn-outline-danger\">Supprimer</a>
+
+                        {% if candidature.statut == 'acceptée' %}
+                            <a href=\"{{ path('app_export_pdf', {'id': candidature.id}) }}\" class=\"btn btn-sm btn-primary\">Exporter PDF</a>
+                        {% endif %}
+
+                        {% if candidature.statut == 'en_attente' %}
+                            <a href=\"{{ path('app_updatecandidature', {'id': candidature.id}) }}\" class=\"btn btn-sm btn-outline-warning\">Modifier</a>
+                        {% endif %}
+                    </td>
                 </tr>
 
-                <!-- Modal pour la lettre de motivation -->
-                <div class=\"modal fade\" id=\"motivationModal{{ candidature.id }}\" tabindex=\"-1\" aria-labelledby=\"motivationModalLabel\" aria-hidden=\"true\">
-                   <div class=\"modal-dialog modal-dialog-centered\">
+                <!-- Modal Lettre de Motivation -->
+                <div class=\"modal fade\" id=\"motivationModal{{ candidature.id }}\" tabindex=\"-1\" aria-labelledby=\"motivationModalLabel{{ candidature.id }}\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog modal-dialog-centered\">
                         <div class=\"modal-content\">
                             <div class=\"modal-header\">
-                                <h5 class=\"modal-title\" id=\"motivationModalLabel\">Lettre de Motivation</h5>
-                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+                                <h5 class=\"modal-title\" id=\"motivationModalLabel{{ candidature.id }}\">Lettre de Motivation</h5>
+                                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Fermer\"></button>
                             </div>
                             <div class=\"modal-body\">
-                                {{ candidature.lettremotivation }}
+                                <p>{{ candidature.lettremotivation|nl2br }}</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
             {% else %}
                 <tr>
-                    <td colspan=\"8\" class=\"text-center\">Aucune candidature trouvée.</td>
+                    <td colspan=\"9\" class=\"text-center text-muted\">Aucune candidature trouvée.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-
 {% endblock %}
 ", "candidature/index.html.twig", "C:\\careera\\templates\\candidature\\index.html.twig");
     }

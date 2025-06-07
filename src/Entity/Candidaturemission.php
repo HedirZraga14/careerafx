@@ -110,14 +110,14 @@ class Candidaturemission
         return $this->userid;
     }
 
-    public function setUserid(string $userid): static
+    public function setUserid(user $userid): static
     {
         $this->userid = $userid;
 
         return $this;
     }
 
-    public function getUser(): ?string
+    public function getUser(): ?user
     {
         return $this->user;
     }

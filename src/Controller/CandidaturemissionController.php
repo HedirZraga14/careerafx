@@ -21,46 +21,39 @@ use App\Entity\User;
 
 final class CandidaturemissionController extends AbstractController
 {
-    #[Route('/candidature', name: 'app_candidature')]
+    #[Route('/candidature', name: 'app_candidaturemission')]
     public function index(): Response
     {
-        return $this->render('candidature/index.html.twig', [
+        return $this->render('candidaturemission/index.html.twig', [
             'controller_name' => 'CandidaturemissionController',
         ]);
     }
+    
 
-    // Le freelancer postule à une offre
-    #[Route('/postuler/{offreId}/', name: 'app_postuler_a_offre')]
-    public function postulerAOffre(int $offreId, int $utilisateurId, EntityManagerInterface $entityManager,Security $security): Response
-    {
-        $user = $security->getUser();
+ #[Route('/postuler/{offreId}', name: 'app_postuler_offre')]
+public function postulerAOffre(int $offreId, EntityManagerInterface $entityManager, Security $security): Response
+{
+    $user = $security->getUser();
 
-        if (!$user) {
-            return new Response('User not authenticated', 401);
-        }
-
-        if (!$user instanceof User) {
-            return new Response('Invalid user object', 500);
-        }
-        // Récupérer l'offre et l'utilisateur
-        $offre = $entityManager->getRepository(Missionfreelencer::class)->find($offreId);
-
-
-        // Créer la candidature
-        $candidature = new Candidaturemission();
-        $candidature->setUserid($user->getId());
-        $candidature->setMission($offre);
-       
-
-        // Sauvegarder la candidature
-        $entityManager->persist($candidature);
-        $entityManager->flush();
-
-        // Retourner une réponse ou rediriger l'utilisateur
-        return $this->redirectToRoute('offre_detail', ['id' => $offre->getId()]);
+    if (!$user instanceof User) {
+        return new Response('User not authenticated', 401);
     }
 
-    // src/Controller/CandidatureController.php
+    $offre = $entityManager->getRepository(Missionfreelencer::class)->find($offreId);
+    if (!$offre) {
+        throw $this->createNotFoundException('Offre non trouvée.');
+    }
+
+    $candidature = new Candidaturemission();
+    $candidature->setUser($user);   // Assure-toi que setUser existe et est correctement mappé
+    $candidature->setMission($offre);  // Assure-toi que setMission existe
+
+    $entityManager->persist($candidature);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_offre_details', ['id' => $offre->getId()]);
+}
+
 
     #[Route('/candidatures', name: 'app_lister_toutes_candidatures')]
     public function listerToutesCandidatures(Security $security, EntityManagerInterface $entityManager): Response

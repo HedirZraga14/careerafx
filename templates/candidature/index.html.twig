@@ -1,31 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Listes des Candidatures{% endblock %}
+{% block title %}Liste des Candidatures{% endblock %}
 
 {% block body %}
-<div class="d-flex justify-content-start mb-2 mt-5  ">
-   <a href="{{ path('app_offre') }}" class="btn btn-success btn-sm">
-      <i class="fa fa-arrow-left"></i> Retour
-   </a>
+<div class="d-flex justify-content-start mb-2 mt-5">
+    <a href="{{ path('app_offre') }}" class="btn btn-success btn-sm">
+        <i class="fa fa-arrow-left"></i> Retour
+    </a>
 </div>
-<h1 class="mb-3 text-center">Listes des Candidatures</h1>
+
+<h1 class="mb-3 text-center">Liste des Candidatures</h1>
 
 <div class="container">
-   
-    <!-- Tableau des candidatures -->
-    <table class="table table-bordered"> 
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>#</th>
                 <th>Nom</th>
-                <th>Poste/Stage</th>
+                <th>Poste</th>
                 <th>Entreprise</th>
                 <th>Date de Soumission</th>
                 <th>CV</th>
                 <th>Lettre de Motivation</th>
                 <th>Statut</th>
                 <th>Actions</th>
-                
             </tr>
         </thead>
         <tbody>
@@ -37,10 +35,14 @@
                     <td>{{ candidature.offre.entreprise }}</td>
                     <td>{{ candidature.datesoumission|date('d/m/Y') }}</td>
                     <td>
-                        <a href="{{ asset('uploads/cv/' ~ candidature.cv) }}" target="_blank" class="btn btn btn-sm">Voir CV</a>
+                        {% if candidature.cv %}
+                            <a href="{{ asset('uploads/cv/' ~ candidature.cv) }}" target="_blank" class="btn btn-sm btn-outline-secondary">Voir CV</a>
+                        {% else %}
+                            <span class="text-muted">Non disponible</span>
+                        {% endif %}
                     </td>
                     <td>
-                        <button type="button" class="btn btn btn-sm" data-bs-toggle="modal" data-bs-target="#motivationModal{{ candidature.id }}">Voir</button>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#motivationModal{{ candidature.id }}">Voir</button>
                     </td>
                     <td>
                         {% if candidature.statut == 'acceptée' %}
@@ -51,47 +53,39 @@
                             <span class="badge bg-warning text-dark">En attente</span>
                         {% endif %}
                     </td>
-                    <td>
-                        <a href="{{ path('app_deletecandidature', {'id': candidature.id}) }}" class="btn btn-outline-danger">Supprimer</a>
-                             {% if candidature.statut == 'acceptée' %}
-                                <a href="{{ path('app_export_pdf', {'id': candidature.id}) }}" class="btn btn-primary">Exporter en PDF</a> 
-                                
-                            {% else %}
-                                <span class="badge  ">none</span>
-                            {% endif %} 
-                            {% if candidature.statut == 'en_attente' %}
-                                <a href="{{ path('app_updatecandidature', {'id': candidature.id}) }}" class="btn btn-outline-warning">Modifier</a>
-                            {% else %}
-                                <span class="badge  ">none</span>
-                            {% endif %} 
-                
-                          
-                            
-                    </td>   
+                    <td class="d-flex gap-1 flex-wrap">
+                        <a href="{{ path('app_deletecandidature', {'id': candidature.id}) }}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+
+                        {% if candidature.statut == 'acceptée' %}
+                            <a href="{{ path('app_export_pdf', {'id': candidature.id}) }}" class="btn btn-sm btn-primary">Exporter PDF</a>
+                        {% endif %}
+
+                        {% if candidature.statut == 'en_attente' %}
+                            <a href="{{ path('app_updatecandidature', {'id': candidature.id}) }}" class="btn btn-sm btn-outline-warning">Modifier</a>
+                        {% endif %}
+                    </td>
                 </tr>
 
-                <!-- Modal pour la lettre de motivation -->
-                <div class="modal fade" id="motivationModal{{ candidature.id }}" tabindex="-1" aria-labelledby="motivationModalLabel" aria-hidden="true">
-                   <div class="modal-dialog modal-dialog-centered">
+                <!-- Modal Lettre de Motivation -->
+                <div class="modal fade" id="motivationModal{{ candidature.id }}" tabindex="-1" aria-labelledby="motivationModalLabel{{ candidature.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="motivationModalLabel">Lettre de Motivation</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h5 class="modal-title" id="motivationModalLabel{{ candidature.id }}">Lettre de Motivation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                             </div>
                             <div class="modal-body">
-                                {{ candidature.lettremotivation }}
+                                <p>{{ candidature.lettremotivation|nl2br }}</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
             {% else %}
                 <tr>
-                    <td colspan="8" class="text-center">Aucune candidature trouvée.</td>
+                    <td colspan="9" class="text-center text-muted">Aucune candidature trouvée.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-
 {% endblock %}

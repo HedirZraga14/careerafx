@@ -36,19 +36,18 @@ final class OffreController extends AbstractController
         ]);
     }
 
-    #[Route('/postuler/{id}', name: 'app_postuler')]
-    public function postuler(int $id, OffreRepository $offreRepository): Response
-    {
-        $offre = $offreRepository->find($id);
-        if (!$offre) {
-            throw $this->createNotFoundException($this->translator->trans('Offre introuvable'));
-        }
+    #[Route('/postuler/{id}', name: 'app_postulerhedir')]
+    public function postuler(int $id,OffreRepository $offreRepository,TranslatorInterface $translator): Response {
+    $offre = $offreRepository->find($id);
 
-        return $this->render('offre/postuler.html.twig', [
-            'offre' => $offre,
-        ]);
+    if (!$offre) {
+        throw $this->createNotFoundException($translator->trans('Offre introuvable'));
     }
-    
+
+    return $this->render('offre/postuler.html.twig', [
+        'offre' => $offre,
+    ]);
+}
     #[Route('/recherche', name: 'app_recherche')]
     public function recherche(Request $request, OffreRepository $offreRepository): Response
     {

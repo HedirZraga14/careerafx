@@ -16,7 +16,7 @@
 <!-- Recherche avec icône --> 
 <div class="d-flex align-items-center justify-content-between mb-3">
     <!-- Bouton "Consulter état de candidature" -->
-    <a href="{{ path('app_candidature') }}" class="btn btn btn-lg" 
+    <a href="{{ path('app_candidatureoffre') }}" class="btn btn btn-lg" 
        style="background-color: rgb(255, 255, 255); /* Gris Bootstrap */
               color: rgb(50, 52, 53); 
               border-radius: 20px;
@@ -68,10 +68,11 @@
                             </span>
                         </div>
                         <div class="mt-3">
-                            <a href="{{ path('app_postuler', { id: offre.id }) }}" class="btn btn-primary btn-sm w-100">
+                            <a href="{{ path('app_postulerhedir', { id: offre.id }) }}" class="btn btn-primary btn-sm w-100">
                                 {{ 'apply'|trans }}
                             </a>
                         </div>
+
                     </div>
                 </div>
             </div>

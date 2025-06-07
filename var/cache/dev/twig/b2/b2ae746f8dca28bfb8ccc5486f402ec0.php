@@ -115,7 +115,7 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
     <!-- Bouton \"Consulter état de candidature\" -->
     <a href=\"";
         // line 19
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_candidature");
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_candidatureoffre");
         yield "\" class=\"btn btn btn-lg\" 
        style=\"background-color: rgb(255, 255, 255); /* Gris Bootstrap */
               color: rgb(50, 52, 53); 
@@ -232,7 +232,7 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
                         <div class=\"mt-3\">
                             <a href=\"";
             // line 71
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_postuler", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["offre"], "id", [], "any", false, false, false, 71)]), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_postulerhedir", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["offre"], "id", [], "any", false, false, false, 71)]), "html", null, true);
             yield "\" class=\"btn btn-primary btn-sm w-100\">
                                 ";
             // line 72
@@ -240,18 +240,19 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
             yield "
                             </a>
                         </div>
+
                     </div>
                 </div>
             </div>
         ";
             $context['_iterated'] = true;
         }
-        // line 78
+        // line 79
         if (!$context['_iterated']) {
-            // line 79
+            // line 80
             yield "            <div class=\"col-12 text-center\">
                 <p class=\"text-muted\">";
-            // line 80
+            // line 81
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\TranslationExtension']->trans("no_offer_available"), "html", null, true);
             yield "</p>
             </div>
@@ -260,15 +261,15 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['offre'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 83
+        // line 84
         yield "       
     </div>
 </div>
 <div class=\"col-3 text-center\">
     ";
-        // line 87
-        if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 87, $this->source); })()), "request", [], "any", false, false, false, 87), "locale", [], "any", false, false, false, 87) == "fr")) {
-            // line 88
+        // line 88
+        if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 88, $this->source); })()), "request", [], "any", false, false, false, 88), "locale", [], "any", false, false, false, 88) == "fr")) {
+            // line 89
             yield "        <a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_offre", ["_locale" => "en"]);
             yield "\" class=\"btn btn\" style=\"border-radius: 20px; margin-right: 20px;\">
@@ -276,7 +277,7 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
         </a>
     ";
         } else {
-            // line 92
+            // line 93
             yield "        <a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_offre", ["_locale" => "fr"]);
             yield "\" class=\"btn btn\" style=\"border-radius: 20px; margin-right: 20px;\">
@@ -284,7 +285,7 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
         </a>
     ";
         }
-        // line 96
+        // line 97
         yield "</div>
 
 
@@ -319,7 +320,7 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  288 => 96,  280 => 92,  272 => 88,  270 => 87,  264 => 83,  255 => 80,  252 => 79,  250 => 78,  239 => 72,  235 => 71,  228 => 67,  224 => 66,  213 => 62,  207 => 61,  201 => 60,  195 => 59,  190 => 57,  187 => 56,  181 => 53,  178 => 52,  170 => 47,  165 => 45,  162 => 44,  160 => 43,  156 => 41,  151 => 40,  137 => 29,  132 => 27,  126 => 24,  118 => 19,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  289 => 97,  281 => 93,  273 => 89,  271 => 88,  265 => 84,  256 => 81,  253 => 80,  251 => 79,  239 => 72,  235 => 71,  228 => 67,  224 => 66,  213 => 62,  207 => 61,  201 => 60,  195 => 59,  190 => 57,  187 => 56,  181 => 53,  178 => 52,  170 => 47,  165 => 45,  162 => 44,  160 => 43,  156 => 41,  151 => 40,  137 => 29,  132 => 27,  126 => 24,  118 => 19,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -342,7 +343,7 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
 <!-- Recherche avec icône --> 
 <div class=\"d-flex align-items-center justify-content-between mb-3\">
     <!-- Bouton \"Consulter état de candidature\" -->
-    <a href=\"{{ path('app_candidature') }}\" class=\"btn btn btn-lg\" 
+    <a href=\"{{ path('app_candidatureoffre') }}\" class=\"btn btn btn-lg\" 
        style=\"background-color: rgb(255, 255, 255); /* Gris Bootstrap */
               color: rgb(50, 52, 53); 
               border-radius: 20px;
@@ -394,10 +395,11 @@ class __TwigTemplate_1a9da099210c26ddd7bd65c0aa558fe3 extends Template
                             </span>
                         </div>
                         <div class=\"mt-3\">
-                            <a href=\"{{ path('app_postuler', { id: offre.id }) }}\" class=\"btn btn-primary btn-sm w-100\">
+                            <a href=\"{{ path('app_postulerhedir', { id: offre.id }) }}\" class=\"btn btn-primary btn-sm w-100\">
                                 {{ 'apply'|trans }}
                             </a>
                         </div>
+
                     </div>
                 </div>
             </div>
